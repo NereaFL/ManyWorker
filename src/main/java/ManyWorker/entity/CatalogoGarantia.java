@@ -1,11 +1,10 @@
 package ManyWorker.entity;
 
-import javax.validation.constraints.NotBlank;
-
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
-public class CatalogoGarantia {
+public class CatalogoGarantia extends DomainEntity {
 	 
 	@NotBlank
 	private String titulo;
