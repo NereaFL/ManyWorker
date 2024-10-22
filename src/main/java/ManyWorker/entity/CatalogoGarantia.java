@@ -18,7 +18,7 @@ public class CatalogoGarantia {
 		super();
 	}
 
-	//Constrcutor con argumentos 
+	//Constructor con argumentos 
 	public CatalogoGarantia(@NotBlank String titulo, @NotBlank String terminosLeyes) {
 		super();
 		this.titulo = titulo;
