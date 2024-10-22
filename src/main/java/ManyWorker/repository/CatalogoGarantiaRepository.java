@@ -1,5 +1,9 @@
 package ManyWorker.repository;
 
-public class CatalogoGarantiaRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import ManyWorker.entity.CatalogoGarantia;
+
+public interface CatalogoGarantiaRepository extends JpaRepository<CatalogoGarantia, Integer> {
 
 }

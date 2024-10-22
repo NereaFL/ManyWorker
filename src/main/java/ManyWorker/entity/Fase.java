@@ -15,11 +15,7 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
-public class Fase {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Fase extends DomainEntity {
 
     @NotBlank
     private String titulo;
@@ -54,14 +50,6 @@ public class Fase {
     }
 
     // Getters y Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitulo() {
         return titulo;
