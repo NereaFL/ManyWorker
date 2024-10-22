@@ -16,11 +16,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class PlanTrabajo {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class PlanTrabajo extends DomainEntity {
 
     @NotNull
     private int numeroFases;
@@ -50,14 +46,6 @@ public class PlanTrabajo {
     }
 
     // Getters y Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public int getNumeroFases() {
         return numeroFases;
