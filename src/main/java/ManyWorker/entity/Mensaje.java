@@ -19,8 +19,6 @@ import lombok.Setter;
 
 @Entity
 public class Mensaje extends DomainEntity {
-    @Getter
-    @Setter
 
     @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
@@ -49,6 +47,56 @@ public class Mensaje extends DomainEntity {
     public Mensaje() {
         super();
     }
+
+	public Actor getRemitente() {
+		return remitente;
+	}
+
+	public void setRemitente(Actor remitente) {
+		this.remitente = remitente;
+	}
+
+	public Actor getDestinatario() {
+		return destinatario;
+	}
+
+	public void setDestinatario(Actor destinatario) {
+		this.destinatario = destinatario;
+	}
+
+	public Date getFechaHora() {
+		return fechaHora;
+	}
+
+	public void setFechaHora(Date fechaHora) {
+		this.fechaHora = fechaHora;
+	}
+
+	public String getAsunto() {
+		return asunto;
+	}
+
+	public void setAsunto(String asunto) {
+		this.asunto = asunto;
+	}
+
+	public String getCuerpo() {
+		return cuerpo;
+	}
+
+	public void setCuerpo(String cuerpo) {
+		this.cuerpo = cuerpo;
+	}
+
+	public Actor getActorBorrado() {
+		return actorBorrado;
+	}
+
+	public void setActorBorrado(Actor actorBorrado) {
+		this.actorBorrado = actorBorrado;
+	}
+    
+    
 }
 
 
