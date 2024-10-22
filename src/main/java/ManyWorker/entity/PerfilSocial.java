@@ -1,13 +1,11 @@
 package ManyWorker.entity;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.URL;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class PerfilSocial extends DomainEntity {
@@ -18,7 +16,6 @@ public class PerfilSocial extends DomainEntity {
     @NotBlank
     private String nombreRedSocial;
 
-    @URL
     private String enlace;
 
     @NotNull
