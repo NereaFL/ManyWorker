@@ -18,13 +18,9 @@ import lombok.Setter;
 
 
 @Entity
-public class Mensaje {
+public class Mensaje extends DomainEntity {
     @Getter
     @Setter
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @NotNull
     @ManyToOne(cascade = CascadeType.ALL)

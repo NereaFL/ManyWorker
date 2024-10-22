@@ -1,5 +1,9 @@
 package ManyWorker.repository;
 
-public class PatrocinadorRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import ManyWorker.entity.Patrocinador;
+
+public interface PatrocinadorRepository extends JpaRepository<Patrocinador, Integer> {
 
 }

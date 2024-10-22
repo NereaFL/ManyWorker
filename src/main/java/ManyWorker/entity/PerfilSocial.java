@@ -13,15 +13,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-public class PerfilSocial {
+public class PerfilSocial extends DomainEntity {
 
     @Getter
     @Setter
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    
     @NotBlank
     private String apodo;
 

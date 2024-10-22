@@ -1,5 +1,9 @@
 package ManyWorker.repository;
 
-public class MensajeRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import ManyWorker.entity.Mensaje;
+
+public interface MensajeRepository extends JpaRepository<Mensaje, Integer> {
 
 }
