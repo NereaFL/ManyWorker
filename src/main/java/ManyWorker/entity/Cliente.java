@@ -1,5 +1,8 @@
 package ManyWorker.entity;
 
-public class Cliente {
+import jakarta.persistence.Entity;
+
+@Entity
+public class Cliente extends Actor {
 
 }
