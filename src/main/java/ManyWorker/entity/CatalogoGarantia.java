@@ -17,13 +17,6 @@ public class CatalogoGarantia extends DomainEntity {
 		super();
 	}
 
-	//Constructor con argumentos 
-	public CatalogoGarantia(@NotBlank String titulo, @NotBlank String terminosLeyes) {
-		super();
-		this.titulo = titulo;
-		this.terminosLeyes = terminosLeyes;
-	}
-
 	//Getters and Setters
 	public String getTitulo() {
 		return titulo;

@@ -1,5 +1,8 @@
 package ManyWorker.entity;
 
-public class Patrocinio {
+import jakarta.persistence.Entity;
+
+@Entity
+public class Patrocinio extends DomainEntity {
 
 }

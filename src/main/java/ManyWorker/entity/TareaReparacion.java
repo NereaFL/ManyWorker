@@ -4,91 +4,104 @@ import java.sql.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class TareaReparacion extends DomainEntity {
 
-	@NotBlank
-	private Date fechaHora;
+    @NotNull
+    private Date fechaHora;
 
-	@NotBlank
-	private String descipcion;
+    @NotBlank
+    private String descripcion;
 
-	@NotBlank
-	private String direccion;
+    @NotBlank
+    private String direccion;
 
-	@NotBlank
-	private double precioMaximo;
+    @NotNull 
+    private double precioMaximo;
 
-	@NotBlank
-	private String categoria;
+    @NotBlank
+    private String categoria;
 
-	@NotBlank
-	private Date fechaFinalizacion;
+    @NotNull
+    private Date fechaFinalizacion;
 
-	// Constructor Vacio
-	public TareaReparacion() {
-		super();
-	}
+    @NotNull
+    private Long clienteId;
 
-	// Constructor con argumentos
-	public TareaReparacion(Date fechaHora, String descipcion, String direccion, double precioMaximo, String categoria,
-			Date fechaFinalizacion) {
-		super();
-		this.fechaHora = fechaHora;
-		this.descipcion = descipcion;
-		this.direccion = direccion;
-		this.precioMaximo = precioMaximo;
-		this.categoria = categoria;
-		this.fechaFinalizacion = fechaFinalizacion;
-	}
+    // Constructor vacío
+    public TareaReparacion() {
+        super();
+    }
 
-	public Date getFechaHora() {
-		return fechaHora;
-	}
+    // Constructor con argumentos
+    public TareaReparacion(Date fechaHora, String descripcion, String direccion, double precioMaximo, String categoria,
+            Date fechaFinalizacion, Long clienteId) {
+        super();
+        this.fechaHora = fechaHora;
+        this.descripcion = descripcion;
+        this.direccion = direccion;
+        this.precioMaximo = precioMaximo;
+        this.categoria = categoria;
+        this.fechaFinalizacion = fechaFinalizacion;
+        this.clienteId = clienteId;
+    }
 
-	public void setFechaHora(Date fechaHora) {
-		this.fechaHora = fechaHora;
-	}
+    // Getters y setters
+    public Date getFechaHora() {
+        return fechaHora;
+    }
 
-	public String getDescipcion() {
-		return descipcion;
-	}
+    public void setFechaHora(Date fechaHora) {
+        this.fechaHora = fechaHora;
+    }
 
-	public void setDescipcion(String descipcion) {
-		this.descipcion = descipcion;
-	}
+    public String getDescripcion() {
+        return descripcion;
+    }
 
-	public String getDireccion() {
-		return direccion;
-	}
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
+    public String getDireccion() {
+        return direccion;
+    }
 
-	public double getPrecioMaximo() {
-		return precioMaximo;
-	}
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
 
-	public void setPrecioMaximo(double precioMaximo) {
-		this.precioMaximo = precioMaximo;
-	}
+    public double getPrecioMaximo() {
+        return precioMaximo;
+    }
 
-	public String getCategoria() {
-		return categoria;
-	}
+    public void setPrecioMaximo(double precioMaximo) {
+        this.precioMaximo = precioMaximo;
+    }
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
+    public String getCategoria() {
+        return categoria;
+    }
 
-	public Date getFechaFinalizacion() {
-		return fechaFinalizacion;
-	}
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 
-	public void setFechaFinalizacion(Date fechaFinalizacion) {
-		this.fechaFinalizacion = fechaFinalizacion;
-	}
+    public Date getFechaFinalizacion() {
+        return fechaFinalizacion;
+    }
 
+    public void setFechaFinalizacion(Date fechaFinalizacion) {
+        this.fechaFinalizacion = fechaFinalizacion;
+    }
+
+    public Long getClienteId() {
+        return clienteId;
+    }
+
+    public void setClienteId(Long clienteId) {
+        this.clienteId = clienteId;
+    }
 }

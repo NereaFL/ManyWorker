@@ -15,7 +15,6 @@ import jakarta.validation.constraints.Pattern;
 @Entity
 public class Solicitud extends DomainEntity {
 
-
     @NotBlank
     private String fechaHora;
 
@@ -30,29 +29,17 @@ public class Solicitud extends DomainEntity {
 
     // Relación de muchos (0 o más) Solicitudes con un Trabajador
     @ManyToOne(optional = false)
-    @JoinColumn(name = "trabajador_id", nullable = false)
     private Trabajador trabajador;
 
-    // Relación de muchos (0 o más) Solicitudes con muchas (1 o más) Tareas de Reparación
-    @OneToMany(mappedBy = "solicitud", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<TareaReparacion> tareasReparacion;
+    // Relación unidireccional con PlanTrabajo
+    @ManyToOne(optional = false)
+    private PlanTrabajo planTrabajo;
 
     // Constructor vacío
     public Solicitud() {
     }
 
-    // Constructor con parámetros
-    public Solicitud(String fechaHora, double precio, String comentario, String estado, Trabajador trabajador, Set<TareaReparacion> tareasReparacion) {
-        this.fechaHora = fechaHora;
-        this.precio = precio;
-        this.comentario = comentario;
-        this.estado = estado;
-        this.trabajador = trabajador;
-        this.tareasReparacion = tareasReparacion;
-    }
-
     // Getters y Setters
-
     public String getFechaHora() {
         return fechaHora;
     }
@@ -93,11 +80,11 @@ public class Solicitud extends DomainEntity {
         this.trabajador = trabajador;
     }
 
-    public Set<TareaReparacion> getTareasReparacion() {
-        return tareasReparacion;
+    public PlanTrabajo getPlanTrabajo() {
+        return planTrabajo;
     }
 
-    public void setTareasReparacion(Set<TareaReparacion> tareasReparacion) {
-        this.tareasReparacion = tareasReparacion;
+    public void setPlanTrabajo(PlanTrabajo planTrabajo) {
+        this.planTrabajo = planTrabajo;
     }
 }

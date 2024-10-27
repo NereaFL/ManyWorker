@@ -29,7 +29,6 @@ public class Fase extends DomainEntity {
 
     // Relación muchos a uno (Fase está asociada a un PlanTrabajo)
     @ManyToOne(optional = false)
-    @JoinColumn(name = "plan_trabajo_id", nullable = false)
     private PlanTrabajo planTrabajo;
 
     // Constructor vacío

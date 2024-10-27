@@ -1,5 +1,8 @@
 package ManyWorker.entity;
 
-public class Administrador {
+import jakarta.persistence.Entity;
+
+@Entity
+public class Administrador extends Actor {
 
 }

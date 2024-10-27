@@ -1,5 +1,8 @@
 package ManyWorker.entity;
 
-public class Patrocinador {
+import jakarta.persistence.Entity;
+
+@Entity
+public class Patrocinador extends Actor {
 
 }

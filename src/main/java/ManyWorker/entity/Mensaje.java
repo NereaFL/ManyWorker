@@ -1,28 +1,18 @@
 package ManyWorker.entity;
 
 import java.sql.Date;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
-
 
 @Entity
 public class Mensaje extends DomainEntity {
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "remitente_id", nullable = false)
-    private Actor remitente;
+    private Long remitenteId; // ID del remitente en lugar de un objeto Actor
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "destinatario_id", nullable = false)
-    private Actor destinatario;
+    private Long destinatarioId; // ID del destinatario en lugar de un objeto Actor
 
     @NotNull
     private Date fechaHora;
@@ -33,64 +23,60 @@ public class Mensaje extends DomainEntity {
     @NotBlank
     private String cuerpo;
 
-    // Propiedad para marcar el borrado del mensaje
-    @ManyToOne
-    @JoinColumn(name = "actor_borrado_id") // Actor que ha borrado el mensaje
-    private Actor actorBorrado;
+    private Long actorBorradoId; // ID del actor que borró el mensaje, si aplica
 
     public Mensaje() {
         super();
     }
 
-	public Actor getRemitente() {
-		return remitente;
-	}
+    // Getters y setters
+    public Long getRemitenteId() {
+        return remitenteId;
+    }
 
-	public void setRemitente(Actor remitente) {
-		this.remitente = remitente;
-	}
+    public void setRemitenteId(Long remitenteId) {
+        this.remitenteId = remitenteId;
+    }
 
-	public Actor getDestinatario() {
-		return destinatario;
-	}
+    public Long getDestinatarioId() {
+        return destinatarioId;
+    }
 
-	public void setDestinatario(Actor destinatario) {
-		this.destinatario = destinatario;
-	}
+    public void setDestinatarioId(Long destinatarioId) {
+        this.destinatarioId = destinatarioId;
+    }
 
-	public Date getFechaHora() {
-		return fechaHora;
-	}
+    public Date getFechaHora() {
+        return fechaHora;
+    }
 
-	public void setFechaHora(Date fechaHora) {
-		this.fechaHora = fechaHora;
-	}
+    public void setFechaHora(Date fechaHora) {
+        this.fechaHora = fechaHora;
+    }
 
-	public String getAsunto() {
-		return asunto;
-	}
+    public String getAsunto() {
+        return asunto;
+    }
 
-	public void setAsunto(String asunto) {
-		this.asunto = asunto;
-	}
+    public void setAsunto(String asunto) {
+        this.asunto = asunto;
+    }
 
-	public String getCuerpo() {
-		return cuerpo;
-	}
+    public String getCuerpo() {
+        return cuerpo;
+    }
 
-	public void setCuerpo(String cuerpo) {
-		this.cuerpo = cuerpo;
-	}
+    public void setCuerpo(String cuerpo) {
+        this.cuerpo = cuerpo;
+    }
 
-	public Actor getActorBorrado() {
-		return actorBorrado;
-	}
+    public Long getActorBorradoId() {
+        return actorBorradoId;
+    }
 
-	public void setActorBorrado(Actor actorBorrado) {
-		this.actorBorrado = actorBorrado;
-	}
-    
-    
+    public void setActorBorradoId(Long actorBorradoId) {
+        this.actorBorradoId = actorBorradoId;
+    }
 }
 
 

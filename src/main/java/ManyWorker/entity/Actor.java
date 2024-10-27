@@ -1,7 +1,6 @@
 package ManyWorker.entity;
 
 import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -11,8 +10,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-
-
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -40,121 +37,127 @@ public abstract class Actor extends DomainEntity {
     @Min(0)
     private Integer numeroPerfilesSociales;
 
-    @OneToMany(mappedBy = "remitente")
+    // Relación unidireccional a Mensaje
+    @OneToMany
     private List<Mensaje> mensajesEnviados;
 
-    @OneToMany(mappedBy = "destinatario")
+    @OneToMany
     private List<Mensaje> mensajesRecibidos;
 
-    // Mensajes que este Actor ha borrado
-    @OneToMany(mappedBy = "actorBorrado")
+    @OneToMany
     private List<Mensaje> mensajesBorrados;
 
-    @OneToMany(mappedBy = "actor")
+    // Relación unidireccional a PerfilSocial
+    @OneToMany
     private List<PerfilSocial> perfilesSociales;
 
     public Actor() {
         super();
     }
 
-	public String getNombre() {
-		return nombre;
-	}
+    public Actor(String nombre, String primerApellido) {
+        this.nombre = nombre;
+        this.primerApellido = primerApellido;
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
 
-	public String getPrimerApellido() {
-		return primerApellido;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public void setPrimerApellido(String primerApellido) {
-		this.primerApellido = primerApellido;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public String getSegundoApellido() {
-		return segundoApellido;
-	}
+    public String getPrimerApellido() {
+        return primerApellido;
+    }
 
-	public void setSegundoApellido(String segundoApellido) {
-		this.segundoApellido = segundoApellido;
-	}
+    public void setPrimerApellido(String primerApellido) {
+        this.primerApellido = primerApellido;
+    }
 
-	public String getFoto() {
-		return foto;
-	}
+    public String getSegundoApellido() {
+        return segundoApellido;
+    }
 
-	public void setFoto(String foto) {
-		this.foto = foto;
-	}
+    public void setSegundoApellido(String segundoApellido) {
+        this.segundoApellido = segundoApellido;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getFoto() {
+        return foto;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
 
-	public String getTelefono() {
-		return telefono;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getDireccion() {
-		return direccion;
-	}
+    public String getTelefono() {
+        return telefono;
+    }
 
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
 
-	public Integer getNumeroPerfilesSociales() {
-		return numeroPerfilesSociales;
-	}
+    public String getDireccion() {
+        return direccion;
+    }
 
-	public void setNumeroPerfilesSociales(Integer numeroPerfilesSociales) {
-		this.numeroPerfilesSociales = numeroPerfilesSociales;
-	}
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
 
-	public List<Mensaje> getMensajesEnviados() {
-		return mensajesEnviados;
-	}
+    public Integer getNumeroPerfilesSociales() {
+        return numeroPerfilesSociales;
+    }
 
-	public void setMensajesEnviados(List<Mensaje> mensajesEnviados) {
-		this.mensajesEnviados = mensajesEnviados;
-	}
+    public void setNumeroPerfilesSociales(Integer numeroPerfilesSociales) {
+        this.numeroPerfilesSociales = numeroPerfilesSociales;
+    }
 
-	public List<Mensaje> getMensajesRecibidos() {
-		return mensajesRecibidos;
-	}
+    public List<Mensaje> getMensajesEnviados() {
+        return mensajesEnviados;
+    }
 
-	public void setMensajesRecibidos(List<Mensaje> mensajesRecibidos) {
-		this.mensajesRecibidos = mensajesRecibidos;
-	}
+    public void setMensajesEnviados(List<Mensaje> mensajesEnviados) {
+        this.mensajesEnviados = mensajesEnviados;
+    }
 
-	public List<Mensaje> getMensajesBorrados() {
-		return mensajesBorrados;
-	}
+    public List<Mensaje> getMensajesRecibidos() {
+        return mensajesRecibidos;
+    }
 
-	public void setMensajesBorrados(List<Mensaje> mensajesBorrados) {
-		this.mensajesBorrados = mensajesBorrados;
-	}
+    public void setMensajesRecibidos(List<Mensaje> mensajesRecibidos) {
+        this.mensajesRecibidos = mensajesRecibidos;
+    }
 
-	public List<PerfilSocial> getPerfilesSociales() {
-		return perfilesSociales;
-	}
+    public List<Mensaje> getMensajesBorrados() {
+        return mensajesBorrados;
+    }
 
-	public void setPerfilesSociales(List<PerfilSocial> perfilesSociales) {
-		this.perfilesSociales = perfilesSociales;
-	}
-    
-    
+    public void setMensajesBorrados(List<Mensaje> mensajesBorrados) {
+        this.mensajesBorrados = mensajesBorrados;
+    }
+
+    public List<PerfilSocial> getPerfilesSociales() {
+        return perfilesSociales;
+    }
+
+    public void setPerfilesSociales(List<PerfilSocial> perfilesSociales) {
+        this.perfilesSociales = perfilesSociales;
+    }
 }
+
 
 
 
