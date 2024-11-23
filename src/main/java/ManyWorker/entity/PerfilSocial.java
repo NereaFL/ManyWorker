@@ -1,5 +1,7 @@
 package ManyWorker.entity;
 
+import org.hibernate.validator.constraints.URL;
+
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
 
@@ -12,6 +14,7 @@ public class PerfilSocial extends DomainEntity {
     @NotBlank
     private String nombreRedSocial;
 
+    @URL(message = "El enlace debe ser una URL válida")
     private String enlace;
 
     public PerfilSocial() {

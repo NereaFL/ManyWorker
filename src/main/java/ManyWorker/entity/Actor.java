@@ -1,6 +1,9 @@
 package ManyWorker.entity;
 
 import java.util.List;
+
+import org.hibernate.validator.constraints.URL;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -22,7 +25,8 @@ public abstract class Actor extends DomainEntity {
     private String primerApellido;
 
     private String segundoApellido;
-
+    
+    @URL(message = "El enlace de la foto debe ser una URL válida")
     private String foto;
 
     @Email

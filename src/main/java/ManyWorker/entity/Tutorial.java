@@ -2,6 +2,8 @@ package ManyWorker.entity;
 
 import java.sql.Date;
 
+import org.hibernate.validator.constraints.URL;
+
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
 
@@ -17,6 +19,7 @@ public class Tutorial extends DomainEntity {
 	@NotBlank
     private String resumen;
 	
+	@URL(message = "El enlace de la foto debe ser una URL válida")
     private String imagen;  
     
     @NotBlank

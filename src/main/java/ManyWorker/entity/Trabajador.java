@@ -4,14 +4,14 @@ package ManyWorker.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Trabajador extends Actor {
 	
+	@NotNull
     private String nombreComercial;
 
     @OneToMany

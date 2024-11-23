@@ -1,5 +1,7 @@
 package ManyWorker.entity;
 
+import org.hibernate.validator.constraints.URL;
+
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
 
@@ -9,6 +11,7 @@ public class Curriculo extends DomainEntity {
 	@NotBlank
     private String codigo;   
 	
+	@URL(message = "El enlace del archivo debe ser una URL válida")
     private String archivoPdf;
 
 	public Curriculo() {
