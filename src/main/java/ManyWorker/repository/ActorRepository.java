@@ -1,9 +1,10 @@
 package ManyWorker.repository;
 
+import ManyWorker.entity.Actor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import ManyWorker.entity.Actor;
+import java.util.Optional;
 
-public interface ActorRepository extends JpaRepository<Actor, Integer>  {
-
+public interface ActorRepository extends JpaRepository<Actor, Integer> {
+    Optional<Actor> findByEmail(String email);
 }

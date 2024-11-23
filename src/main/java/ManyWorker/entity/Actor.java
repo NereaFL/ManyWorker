@@ -37,7 +37,9 @@ public abstract class Actor extends DomainEntity {
     @Min(0)
     private Integer numeroPerfilesSociales;
 
-    // Relación unidireccional a Mensaje
+    private String password; // Nuevo campo para la autenticación
+
+    // Relaciones unidireccionales a Mensaje y PerfilSocial
     @OneToMany
     private List<Mensaje> mensajesEnviados;
 
@@ -47,7 +49,6 @@ public abstract class Actor extends DomainEntity {
     @OneToMany
     private List<Mensaje> mensajesBorrados;
 
-    // Relación unidireccional a PerfilSocial
     @OneToMany
     private List<PerfilSocial> perfilesSociales;
 
@@ -59,7 +60,6 @@ public abstract class Actor extends DomainEntity {
         this.nombre = nombre;
         this.primerApellido = primerApellido;
     }
-
 
     public String getNombre() {
         return nombre;
@@ -125,6 +125,14 @@ public abstract class Actor extends DomainEntity {
         this.numeroPerfilesSociales = numeroPerfilesSociales;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public List<Mensaje> getMensajesEnviados() {
         return mensajesEnviados;
     }
@@ -157,7 +165,3 @@ public abstract class Actor extends DomainEntity {
         this.perfilesSociales = perfilesSociales;
     }
 }
-
-
-
-
