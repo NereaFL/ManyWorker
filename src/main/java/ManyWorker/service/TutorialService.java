@@ -21,7 +21,7 @@ public class TutorialService {
     }
 
     // Editar un tutorial existente
-    public Tutorial editarTutorial(Long tutorialId, Tutorial nuevosDatos) {
+    public Tutorial editarTutorial(int tutorialId, Tutorial nuevosDatos) {
         Optional<Tutorial> tutorialOptional = tutorialRepository.findById(tutorialId);
 
         if (tutorialOptional.isPresent()) {
@@ -43,12 +43,12 @@ public class TutorialService {
     }
 
     // Obtener un tutorial por ID
-    public Optional<Tutorial> obtenerTutorialPorId(Long tutorialId) {
+    public Optional<Tutorial> obtenerTutorialPorId(int tutorialId) {
         return tutorialRepository.findById(tutorialId);
     }
 
     // Eliminar un tutorial
-    public void eliminarTutorial(Long tutorialId) {
+    public void eliminarTutorial(int tutorialId) {
         if (tutorialRepository.existsById(tutorialId)) {
             tutorialRepository.deleteById(tutorialId);
         } else {

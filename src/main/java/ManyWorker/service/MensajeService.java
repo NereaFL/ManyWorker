@@ -16,8 +16,12 @@ public class MensajeService {
 
     // Enviar un mensaje
     public Mensaje enviarMensaje(Mensaje mensaje) {
-        mensaje.setActorBorradoId(null); // Ignorar el campo actorBorradoId
+        mensaje.setActorBorradoId(null);
         return mensajeRepository.save(mensaje);
+    }
+    
+    public List<Mensaje> listarMensajes() {
+        return mensajeRepository.findAll();
     }
 
     // Listar mensajes por actor

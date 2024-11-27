@@ -19,6 +19,11 @@ public class MensajeController {
     public Mensaje enviarMensaje(@RequestBody Mensaje mensaje) {
         return mensajeService.enviarMensaje(mensaje);
     }
+    
+    @GetMapping
+    public List<Mensaje> listarPerfilesSociales() {
+        return mensajeService.listarMensajes();
+    }
 
     @GetMapping("/actor/{actorId}")
     public List<Mensaje> listarMensajesPorActor(@PathVariable int actorId) {
