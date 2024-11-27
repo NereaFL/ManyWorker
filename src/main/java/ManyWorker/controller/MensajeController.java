@@ -20,9 +20,9 @@ public class MensajeController {
         return mensajeService.enviarMensaje(mensaje);
     }
 
-    @GetMapping("/usuario/{id}")
-    public List<Mensaje> listarMensajesPorUsuario(@PathVariable int id) {
-        return mensajeService.listarMensajesPorUsuario(id);
+    @GetMapping("/actor/{actorId}")
+    public List<Mensaje> listarMensajesPorActor(@PathVariable int actorId) {
+        return mensajeService.listarMensajesPorActor(actorId);
     }
 
     @DeleteMapping("/eliminar/{id}")

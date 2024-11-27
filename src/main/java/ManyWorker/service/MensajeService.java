@@ -16,21 +16,22 @@ public class MensajeService {
 
     // Enviar un mensaje
     public Mensaje enviarMensaje(Mensaje mensaje) {
+        mensaje.setActorBorradoId(null); // Ignorar el campo actorBorradoId
         return mensajeRepository.save(mensaje);
     }
 
-    // Listar mensajes por usuario (enviados y recibidos)
-    public List<Mensaje> listarMensajesPorUsuario(int usuarioId) {
-        return mensajeRepository.findByRemitenteIdOrDestinatarioId(usuarioId, usuarioId);
+    // Listar mensajes por actor
+    public List<Mensaje> listarMensajesPorActor(int actorId) {
+        return mensajeRepository.findByRemitente_IdOrDestinatario_Id(actorId, actorId);
     }
 
     // Eliminar un mensaje
-    public void eliminarMensaje(int mensajeId) {
-        mensajeRepository.deleteById(mensajeId);
+    public void eliminarMensaje(int id) {
+        mensajeRepository.deleteById(id);
     }
 
     // Obtener un mensaje por ID
-    public Optional<Mensaje> obtenerMensajePorId(int mensajeId) {
-        return mensajeRepository.findById(mensajeId);
+    public Optional<Mensaje> obtenerMensajePorId(int id) {
+        return mensajeRepository.findById(id);
     }
 }

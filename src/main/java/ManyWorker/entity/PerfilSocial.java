@@ -3,6 +3,8 @@ package ManyWorker.entity;
 import org.hibernate.validator.constraints.URL;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
@@ -16,6 +18,10 @@ public class PerfilSocial extends DomainEntity {
 
     @URL(message = "El enlace debe ser una URL válida")
     private String enlace;
+
+    @ManyToOne
+    @JoinColumn(name = "actor_id", nullable = false)
+    private Actor actor;
 
     public PerfilSocial() {
         super();
@@ -45,5 +51,12 @@ public class PerfilSocial extends DomainEntity {
     public void setEnlace(String enlace) {
         this.enlace = enlace;
     }
-}
 
+    public Actor getActor() {
+        return actor;
+    }
+
+    public void setActor(Actor actor) {
+        this.actor = actor;
+    }
+}

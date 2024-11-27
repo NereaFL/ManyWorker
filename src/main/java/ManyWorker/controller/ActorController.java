@@ -21,8 +21,8 @@ public class ActorController {
     }
 
     @PostMapping("/autenticacion")
-    public Optional<Actor> autenticarActor(@RequestParam String email, @RequestParam String password) {
-        return actorService.autenticarActor(email, password);
+    public Optional<Actor> autenticarActor(@RequestBody LoginRequest loginRequest) {
+        return actorService.autenticarActor(loginRequest.getEmail(), loginRequest.getPassword());
     }
 
     @PutMapping("/editar/{id}")
@@ -38,5 +38,26 @@ public class ActorController {
     @GetMapping("/{id}")
     public Optional<Actor> obtenerActorPorId(@PathVariable int id) {
         return actorService.obtenerActorPorId(id);
+    }
+}
+
+class LoginRequest {
+    private String email;
+    private String password;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

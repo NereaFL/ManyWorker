@@ -16,8 +16,13 @@ public class PerfilSocialService {
 
     // Crear un nuevo perfil social
     public PerfilSocial crearPerfilSocial(PerfilSocial perfilSocial) {
+        // Asegúrate de que el actor esté asignado
+        if (perfilSocial.getActor() == null) {
+            throw new IllegalArgumentException("El perfil debe tener un actor asignado.");
+        }
         return perfilSocialRepository.save(perfilSocial);
     }
+
 
     // Editar un perfil social
     public PerfilSocial editarPerfilSocial(int perfilId, PerfilSocial nuevosDatos) {

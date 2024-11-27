@@ -4,18 +4,31 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.URL;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@JsonTypeInfo(
+  use = JsonTypeInfo.Id.NAME, 
+  include = JsonTypeInfo.As.PROPERTY, 
+  property = "type")
+@JsonSubTypes({ 
+  @JsonSubTypes.Type(value = Cliente.class, name = "cliente"), 
+  @JsonSubTypes.Type(value = Trabajador.class, name = "trabajador"),
+  @JsonSubTypes.Type(value = Patrocinador.class, name = "patrocinador") 
+})
 public abstract class Actor extends DomainEntity {
 
     @NotBlank
@@ -25,11 +38,12 @@ public abstract class Actor extends DomainEntity {
     private String primerApellido;
 
     private String segundoApellido;
-    
+
     @URL(message = "El enlace de la foto debe ser una URL válida")
     private String foto;
 
     @Email
+    @Column(unique = true)
     private String email;
 
     @Pattern(regexp = "[6-9][0-9]{8}", message = "El teléfono debe tener 9 dígitos y comenzar con 6, 7, 8 o 9")
@@ -37,13 +51,8 @@ public abstract class Actor extends DomainEntity {
 
     private String direccion;
 
-    @NotNull
-    @Min(0)
-    private Integer numeroPerfilesSociales;
+    private String password;
 
-    private String password; // Nuevo campo para la autenticación
-
-    // Relaciones unidireccionales a Mensaje y PerfilSocial
     @OneToMany
     private List<Mensaje> mensajesEnviados;
 
@@ -56,6 +65,12 @@ public abstract class Actor extends DomainEntity {
     @OneToMany
     private List<PerfilSocial> perfilesSociales;
 
+    @JsonCreator
+    public Actor(@JsonProperty("id") int id) {
+        super(); 
+        this.setId(id);
+    }
+    
     public Actor() {
         super();
     }
@@ -65,6 +80,7 @@ public abstract class Actor extends DomainEntity {
         this.primerApellido = primerApellido;
     }
 
+    // Getters y Setters
     public String getNombre() {
         return nombre;
     }
@@ -121,13 +137,6 @@ public abstract class Actor extends DomainEntity {
         this.direccion = direccion;
     }
 
-    public Integer getNumeroPerfilesSociales() {
-        return numeroPerfilesSociales;
-    }
-
-    public void setNumeroPerfilesSociales(Integer numeroPerfilesSociales) {
-        this.numeroPerfilesSociales = numeroPerfilesSociales;
-    }
 
     public String getPassword() {
         return password;

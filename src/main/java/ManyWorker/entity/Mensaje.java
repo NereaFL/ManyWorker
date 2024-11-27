@@ -1,18 +1,25 @@
 package ManyWorker.entity;
 
-import java.sql.Date;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 public class Mensaje extends DomainEntity {
 
     @NotNull
-    private Long remitenteId; // ID del remitente en lugar de un objeto Actor
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "remitente_id", referencedColumnName = "id", nullable = false)
+    private Actor remitente;
 
     @NotNull
-    private Long destinatarioId; // ID del destinatario en lugar de un objeto Actor
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "destinatario_id", referencedColumnName = "id", nullable = false)
+    private Actor destinatario;
 
     @NotNull
     private Date fechaHora;
@@ -23,27 +30,25 @@ public class Mensaje extends DomainEntity {
     @NotBlank
     private String cuerpo;
 
-    private Long actorBorradoId; // ID del actor que borró el mensaje, si aplica
-
-    public Mensaje() {
-        super();
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "actorborrado_id", referencedColumnName = "id", nullable = true)
+    private Actor actorBorradoId;
 
     // Getters y setters
-    public Long getRemitenteId() {
-        return remitenteId;
+    public Actor getRemitente() {
+        return remitente;
     }
 
-    public void setRemitenteId(Long remitenteId) {
-        this.remitenteId = remitenteId;
+    public void setRemitente(Actor remitente) {
+        this.remitente = remitente;
     }
 
-    public Long getDestinatarioId() {
-        return destinatarioId;
+    public Actor getDestinatario() {
+        return destinatario;
     }
 
-    public void setDestinatarioId(Long destinatarioId) {
-        this.destinatarioId = destinatarioId;
+    public void setDestinatario(Actor destinatario) {
+        this.destinatario = destinatario;
     }
 
     public Date getFechaHora() {
@@ -70,14 +75,11 @@ public class Mensaje extends DomainEntity {
         this.cuerpo = cuerpo;
     }
 
-    public Long getActorBorradoId() {
+    public Actor getActorBorradoId() {
         return actorBorradoId;
     }
 
-    public void setActorBorradoId(Long actorBorradoId) {
+    public void setActorBorradoId(Actor actorBorradoId) {
         this.actorBorradoId = actorBorradoId;
     }
 }
-
-
-

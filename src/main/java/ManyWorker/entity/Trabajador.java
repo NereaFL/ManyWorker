@@ -1,6 +1,5 @@
 package ManyWorker.entity;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +9,8 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Trabajador extends Actor {
-	
-	@NotNull
+
+    @NotNull
     private String nombreComercial;
 
     @OneToMany
@@ -20,12 +19,13 @@ public class Trabajador extends Actor {
     @OneToMany
     private List<Tutorial> tutoriales = new ArrayList<>();
 
-    public Trabajador(String nombre, String primerApellido, String nombreComercial) {
+    public Trabajador(String nombre, String primerApellido) {
         super(nombre, primerApellido);
-        this.nombreComercial = nombre + primerApellido;
+        this.nombreComercial = nombre + " " + primerApellido; // Asignar nombre comercial por defecto
     }
 
     public Trabajador() {
+        super();
     }
 
     public String getNombreComercial() {
@@ -33,7 +33,11 @@ public class Trabajador extends Actor {
     }
 
     public void setNombreComercial(String nombreComercial) {
-        this.nombreComercial = nombreComercial;
+        if (nombreComercial == null || nombreComercial.isEmpty()) {
+            this.nombreComercial = this.getNombre() + " " + this.getPrimerApellido();
+        } else {
+            this.nombreComercial = nombreComercial;
+        }
     }
 
     public List<Curriculo> getCurriculos() {

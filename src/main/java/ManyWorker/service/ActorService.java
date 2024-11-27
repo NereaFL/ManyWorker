@@ -1,12 +1,14 @@
 package ManyWorker.service;
 
-import ManyWorker.entity.Actor;
-import ManyWorker.repository.ActorRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import ManyWorker.entity.Actor;
+import ManyWorker.entity.Trabajador;
+import ManyWorker.repository.ActorRepository;
 
 @Service
 public class ActorService {
@@ -16,12 +18,24 @@ public class ActorService {
 
     // Registrar un nuevo actor (cliente o trabajador)
     public Actor registrarActor(Actor actor) {
+        // Verificar si ya existe un actor con el mismo email
+        Optional<Actor> existente = actorRepository.findByEmail(actor.getEmail());
+        if (existente.isPresent()) {
+            throw new RuntimeException("Ya existe un actor registrado con el email: " + actor.getEmail());
+        }
+        
+        if(actor instanceof Trabajador) {
+        	Trabajador trabajador = (Trabajador) actor;
+        	if(trabajador.getNombreComercial() == null || trabajador.getNombreComercial().isEmpty()) {
+        		trabajador.setNombreComercial(trabajador.getNombre() + " " + trabajador.getPrimerApellido());
+        	}
+        }
+        
         return actorRepository.save(actor);
     }
 
     // Autenticar un actor (implementar lógica de autenticación según tus necesidades)
     public Optional<Actor> autenticarActor(String email, String password) {
-        // Ejemplo simple de autenticación, busca por email y un campo ficticio de password
         Optional<Actor> actor = actorRepository.findByEmail(email);
         if (actor.isPresent() && actor.get().getPassword().equals(password)) {
             return actor;
@@ -42,7 +56,6 @@ public class ActorService {
             actorExistente.setEmail(nuevosDatos.getEmail());
             actorExistente.setTelefono(nuevosDatos.getTelefono());
             actorExistente.setDireccion(nuevosDatos.getDireccion());
-            actorExistente.setNumeroPerfilesSociales(nuevosDatos.getNumeroPerfilesSociales());
             actorExistente.setPerfilesSociales(nuevosDatos.getPerfilesSociales());
             return actorRepository.save(actorExistente);
         } else {
