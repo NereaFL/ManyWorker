@@ -3,7 +3,6 @@ package ManyWorker.entity;
 import org.hibernate.validator.constraints.URL;
 
 import jakarta.persistence.Entity;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Patrocinio extends DomainEntity {
