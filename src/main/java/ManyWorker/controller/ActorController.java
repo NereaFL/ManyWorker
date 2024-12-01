@@ -2,7 +2,16 @@ package ManyWorker.controller;
 
 import ManyWorker.entity.Actor;
 import ManyWorker.service.ActorService;
+import mrRebujito.entity.ActorLogin;
+import mrRebujito.security.JWTUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,52 +21,18 @@ import java.util.Optional;
 @RequestMapping("/actores")
 public class ActorController {
 
-    @Autowired
-    private ActorService actorService;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
-    @PostMapping("/registro")
-    public Actor registrarActor(@RequestBody Actor actor) {
-        return actorService.registrarActor(actor);
-    }
+	@PostMapping("/login")
+	public ResponseEntity<String> login(@RequestBody ActorLogin actorLogin) {
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(actorLogin.getUsername(), actorLogin.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-    @PostMapping("/autenticacion")
-    public Optional<Actor> autenticarActor(@RequestBody LoginRequest loginRequest) {
-        return actorService.autenticarActor(loginRequest.getEmail(), loginRequest.getPassword());
-    }
+		String token = JWTUtils.generateToken(authentication);
 
-    @PutMapping("/editar/{id}")
-    public Actor editarPerfil(@PathVariable int id, @RequestBody Actor nuevosDatos) {
-        return actorService.editarPerfil(id, nuevosDatos);
-    }
-
-    @GetMapping
-    public List<Actor> listarActores() {
-        return actorService.listarActores();
-    }
-
-    @GetMapping("/{id}")
-    public Optional<Actor> obtenerActorPorId(@PathVariable int id) {
-        return actorService.obtenerActorPorId(id);
-    }
-}
-
-class LoginRequest {
-    private String email;
-    private String password;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+		return new ResponseEntity<String>(token, HttpStatus.OK);
+		
+	}
 }

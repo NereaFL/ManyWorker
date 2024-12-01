@@ -4,11 +4,6 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.URL;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
@@ -19,18 +14,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@JsonTypeInfo(
-  use = JsonTypeInfo.Id.NAME, 
-  include = JsonTypeInfo.As.PROPERTY, 
-  property = "type")
-@JsonSubTypes({ 
-  @JsonSubTypes.Type(value = Cliente.class, name = "cliente"), 
-  @JsonSubTypes.Type(value = Trabajador.class, name = "trabajador"),
-  @JsonSubTypes.Type(value = Patrocinador.class, name = "patrocinador") 
-})
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Actor extends DomainEntity {
 
+	@NotBlank
+	@Column(unique = true)
+	private String username;
+	
     @NotBlank
     private String nombre;
 
@@ -52,8 +42,26 @@ public abstract class Actor extends DomainEntity {
     private String direccion;
 
     private String password;
+    
+    private Roles rol;
 
-    @OneToMany
+    public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public Roles getRol() {
+		return rol;
+	}
+
+	public void setRol(Roles rol) {
+		this.rol = rol;
+	}
+
+	@OneToMany
     private List<Mensaje> mensajesEnviados;
 
     @OneToMany
@@ -65,11 +73,6 @@ public abstract class Actor extends DomainEntity {
     @OneToMany
     private List<PerfilSocial> perfilesSociales;
 
-    @JsonCreator
-    public Actor(@JsonProperty("id") int id) {
-        super(); 
-        this.setId(id);
-    }
     
     public Actor() {
         super();

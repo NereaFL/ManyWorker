@@ -11,10 +11,11 @@ import java.util.Optional;
 
 @Repository
 public interface ActorRepository extends JpaRepository<Actor, Integer> {
-
+	public Optional<Actor> findByUsername(String username);
+	
     // Verificar si el actor existe por su email (método personalizado)
-    boolean existsByEmail(String email);
+    public boolean existsByEmail(String email);
 
     // Buscar actor por email (opcional)
-    Optional<Actor> findByEmail(String email);
+    public Optional<Actor> findByEmail(String email);
 }

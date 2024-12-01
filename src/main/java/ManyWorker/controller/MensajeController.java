@@ -21,7 +21,7 @@ public class MensajeController {
     }
     
     @GetMapping
-    public List<Mensaje> listarPerfilesSociales() {
+    public List<Mensaje> listarMensajes() {
         return mensajeService.listarMensajes();
     }
 
