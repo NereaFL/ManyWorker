@@ -23,5 +23,6 @@ public class Cliente extends Actor {
     public void setTareasReparacion(List<TareaReparacion> tareasReparacion) {
         this.tareasReparacion = tareasReparacion;
     }
+    
 }
 

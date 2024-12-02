@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/perfilSocil")
+@RequestMapping("/perfilSocial")
 public class PerfilSocialController {
 
     @Autowired
