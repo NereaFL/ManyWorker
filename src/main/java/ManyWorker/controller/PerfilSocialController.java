@@ -9,18 +9,18 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/perfil")
+@RequestMapping("/perfilSocil")
 public class PerfilSocialController {
 
     @Autowired
     private PerfilSocialService perfilSocialService;
 
-    @PostMapping("/crear")
+    @PostMapping
     public PerfilSocial crearPerfilSocial(@RequestBody PerfilSocial perfilSocial) {
         return perfilSocialService.crearPerfilSocial(perfilSocial);
     }
 
-    @PutMapping("/editar/{id}")
+    @PutMapping("/{id}")
     public PerfilSocial editarPerfilSocial(@PathVariable int id, @RequestBody PerfilSocial nuevosDatos) {
         return perfilSocialService.editarPerfilSocial(id, nuevosDatos);
     }
@@ -30,7 +30,7 @@ public class PerfilSocialController {
         return perfilSocialService.listarPerfilesSociales();
     }
 
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/{id}")
     public void eliminarPerfilSocial(@PathVariable int id) {
         perfilSocialService.eliminarPerfilSocial(id);
     }

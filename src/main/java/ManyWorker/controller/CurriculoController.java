@@ -15,12 +15,12 @@ public class CurriculoController {
     @Autowired
     private CurriculoService curriculoService;
 
-    @PostMapping("/crear")
+    @PostMapping
     public Curriculo crearCurriculo(@RequestBody Curriculo curriculo) {
         return curriculoService.crearCurriculo(curriculo);
     }
 
-    @PutMapping("/editar/{id}")
+    @PutMapping("/{id}")
     public Curriculo editarCurriculo(@PathVariable int id, @RequestBody Curriculo nuevosDatos) {
         return curriculoService.editarCurriculo(id, nuevosDatos);
     }
@@ -30,7 +30,7 @@ public class CurriculoController {
         return curriculoService.listarCurriculos();
     }
 
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/{id}")
     public void eliminarCurriculo(@PathVariable int id) {
         curriculoService.eliminarCurriculo(id);
     }

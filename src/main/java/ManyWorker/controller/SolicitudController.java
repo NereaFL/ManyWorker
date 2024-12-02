@@ -15,12 +15,12 @@ public class SolicitudController {
     @Autowired
     private SolicitudService solicitudService;
 
-    @PostMapping("/crear")
+    @PostMapping
     public Solicitud crearSolicitud(@RequestBody Solicitud solicitud) {
         return solicitudService.crearSolicitud(solicitud);
     }
 
-    @PutMapping("/editar/{id}")
+    @PutMapping("/{id}")
     public Solicitud editarSolicitud(@PathVariable int id, @RequestBody Solicitud nuevosDatos) {
         return solicitudService.editarSolicitud(id, nuevosDatos);
     }
@@ -30,7 +30,7 @@ public class SolicitudController {
         return solicitudService.listarSolicitudes();
     }
 
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/{id}")
     public void eliminarSolicitud(@PathVariable int id) {
         solicitudService.eliminarSolicitud(id);
     }

@@ -23,19 +23,19 @@ public class TareaReparacionController {
     private TareaReparacionService tareaReparacionService;
 	
 	//Crear una Tarea Reparacion 
-	@PostMapping("/crear")
+	@PostMapping
     public TareaReparacion crearTareaReparacion(@RequestBody TareaReparacion tareaReparacion) {
         return tareaReparacionService.crearTareaReparacion(tareaReparacion);
     }
 	
 	//Editar la Tarea Reparacion
-	@PutMapping("/editar/{id}")
+	@PutMapping("/{id}")
     public TareaReparacion editarTareaReparacion(@PathVariable int id, @RequestBody TareaReparacion nuevosDatos) {
         return tareaReparacionService.editarTareaReparacion(id, nuevosDatos);
     }
 	  
 	//Eliminar una Tarea Reparacion 
-	@DeleteMapping("/eliminar/{id}")
+	@DeleteMapping("/{id}")
     public void eliminarTareaReparacion(@PathVariable int id) {
 		tareaReparacionService.eliminarTareaReparacion(id);
     }
