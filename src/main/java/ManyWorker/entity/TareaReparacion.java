@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 public class TareaReparacion extends DomainEntity {
 
+	//Propiedades de instancia
     @NotNull
     private Date fechaHora;
 
