@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/solicitudes")
+@RequestMapping("/solicitud")
 public class SolicitudController {
 
     @Autowired
     private SolicitudService solicitudService;
 
-    @PostMapping("/registro")
-    public Solicitud registrarSolicitud(@RequestBody Solicitud solicitud) {
-        return solicitudService.registrarSolicitud(solicitud);
+    @PostMapping("/crear")
+    public Solicitud crearSolicitud(@RequestBody Solicitud solicitud) {
+        return solicitudService.crearSolicitud(solicitud);
     }
 
     @PutMapping("/editar/{id}")
@@ -30,13 +30,13 @@ public class SolicitudController {
         return solicitudService.listarSolicitudes();
     }
 
-    @GetMapping("/{id}")
-    public Optional<Solicitud> obtenerSolicitudPorId(@PathVariable int id) {
-        return solicitudService.obtenerSolicitudPorId(id);
-    }
-
     @DeleteMapping("/eliminar/{id}")
     public void eliminarSolicitud(@PathVariable int id) {
         solicitudService.eliminarSolicitud(id);
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Solicitud> obtenerSolicitudPorId(@PathVariable int id) {
+        return solicitudService.obtenerSolicitudPorId(id);
     }
 }

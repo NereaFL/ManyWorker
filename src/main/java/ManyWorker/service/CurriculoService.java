@@ -2,7 +2,6 @@ package ManyWorker.service;
 
 import ManyWorker.entity.Curriculo;
 import ManyWorker.repository.CurriculoRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,36 +14,40 @@ public class CurriculoService {
     @Autowired
     private CurriculoRepository curriculoRepository;
 
-    // Registro de currículos
-    public Curriculo registrarCurriculo(Curriculo curriculo) {
+    // Crear un nuevo curriculo
+    public Curriculo crearCurriculo(Curriculo curriculo) {
+        if (curriculo.getCodigo() == null || curriculo.getCodigo().isEmpty()) {
+            throw new IllegalArgumentException("El curriculo debe tener un código válido.");
+        }
         return curriculoRepository.save(curriculo);
     }
 
-    // Listado de currículos
+    // Editar un curriculo
+    public Curriculo editarCurriculo(int curriculoId, Curriculo nuevosDatos) {
+        Optional<Curriculo> curriculoOptional = curriculoRepository.findById(curriculoId);
+
+        if (curriculoOptional.isPresent()) {
+            Curriculo curriculoExistente = curriculoOptional.get();
+            curriculoExistente.setCodigo(nuevosDatos.getCodigo());
+            curriculoExistente.setArchivoPdf(nuevosDatos.getArchivoPdf());
+            return curriculoRepository.save(curriculoExistente);
+        } else {
+            throw new RuntimeException("Curriculo no encontrado");
+        }
+    }
+
+    // Listar todos los curriculos
     public List<Curriculo> listarCurriculos() {
         return curriculoRepository.findAll();
     }
 
-    // Visualización de un currículo por ID
-    public Optional<Curriculo> obtenerCurriculoPorId(Integer id) {
-        return curriculoRepository.findById(id);
+    // Eliminar un curriculo
+    public void eliminarCurriculo(int curriculoId) {
+        curriculoRepository.deleteById(curriculoId);
     }
 
-    // Actualización de currículos
-    public Curriculo actualizarCurriculo(Integer id, Curriculo curriculoActualizado) {
-        return curriculoRepository.findById(id).map(curriculo -> {
-            curriculo.setCodigo(curriculoActualizado.getCodigo());
-            curriculo.setArchivoPdf(curriculoActualizado.getArchivoPdf());
-            return curriculoRepository.save(curriculo);
-        }).orElseThrow(() -> new RuntimeException("Currículo no encontrado con ID: " + id));
-    }
-
-    // Eliminación de currículos
-    public void eliminarCurriculo(Integer id) {
-        if (curriculoRepository.existsById(id)) {
-            curriculoRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Currículo no encontrado con ID: " + id);
-        }
+    // Obtener un curriculo por ID
+    public Optional<Curriculo> obtenerCurriculoPorId(int curriculoId) {
+        return curriculoRepository.findById(curriculoId);
     }
 }

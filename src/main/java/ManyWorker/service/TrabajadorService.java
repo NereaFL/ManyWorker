@@ -1,55 +1,52 @@
 package ManyWorker.service;
 
-import ManyWorker.entity.Trabajador;
-import ManyWorker.repository.TrabajadorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
-@Service
+import org.springframework.beans.factory.annotation.Autowired;
+
+import ManyWorker.entity.Trabajador;
+import ManyWorker.repository.TrabajadorRepository;
+import jakarta.transaction.Transactional;
+
 public class TrabajadorService {
 
     @Autowired
     private TrabajadorRepository trabajadorRepository;
 
-    // Registrar un nuevo Trabajador
-    public Trabajador registrarTrabajador(Trabajador trabajador) {
+    @Transactional
+    public Trabajador saveTrabajador(Trabajador trabajador) {
         return trabajadorRepository.save(trabajador);
     }
 
-    // Editar un Trabajador existente
-    public Trabajador editarTrabajador(int id, Trabajador nuevosDatos) {
-        Optional<Trabajador> trabajadorOptional = trabajadorRepository.findById(id);
-
-        if (trabajadorOptional.isPresent()) {
-            Trabajador trabajadorExistente = trabajadorOptional.get();
-            trabajadorExistente.setNombreComercial(nuevosDatos.getNombreComercial());
-            trabajadorExistente.setCurriculos(nuevosDatos.getCurriculos());
-            trabajadorExistente.setTutoriales(nuevosDatos.getTutoriales());
-            return trabajadorRepository.save(trabajadorExistente);
-        } else {
-            throw new RuntimeException("Trabajador no encontrado");
+    @Transactional
+    public Trabajador updateTrabajador(int id, Trabajador trabajador) {
+        Optional<Trabajador> trabajadorO = trabajadorRepository.findById(id);
+        if (trabajadorO.isPresent()) {
+            trabajadorO.get().setNombre(trabajador.getNombre());
+            trabajadorO.get().setPrimerApellido(trabajador.getPrimerApellido());
+            trabajadorO.get().setNombreComercial(trabajador.getNombreComercial());
+            trabajadorO.get().setCurriculos(trabajador.getCurriculos());
+            trabajadorO.get().setTutoriales(trabajador.getTutoriales());
+            return trabajadorRepository.save(trabajadorO.get());
         }
+        return null;
     }
 
-    // Listar todos los Trabajadores
-    public List<Trabajador> listarTrabajadores() {
+    public List<Trabajador> getAllTrabajadores() {
         return trabajadorRepository.findAll();
     }
 
-    // Obtener un Trabajador por ID
-    public Optional<Trabajador> obtenerTrabajadorPorId(int id) {
+    public Optional<Trabajador> getTrabajadorById(int id) {
         return trabajadorRepository.findById(id);
     }
 
-    // Eliminar un Trabajador
-    public void eliminarTrabajador(int id) {
+    @Transactional
+    public boolean deleteTrabajador(int id) {
         if (trabajadorRepository.existsById(id)) {
             trabajadorRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Trabajador no encontrado");
+            return true;
         }
+        return false;
     }
 }

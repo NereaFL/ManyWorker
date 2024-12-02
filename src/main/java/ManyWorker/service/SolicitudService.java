@@ -14,14 +14,26 @@ public class SolicitudService {
     @Autowired
     private SolicitudRepository solicitudRepository;
 
-    // Registrar una nueva Solicitud
-    public Solicitud registrarSolicitud(Solicitud solicitud) {
+    // Crear una nueva solicitud
+    public Solicitud crearSolicitud(Solicitud solicitud) {
+        if (solicitud.getFechaHora() == null || solicitud.getFechaHora().isEmpty()) {
+            throw new IllegalArgumentException("La fecha y hora de la solicitud no pueden estar vacías.");
+        }
+        if (solicitud.getPrecio() <= 0) {
+            throw new IllegalArgumentException("El precio de la solicitud debe ser mayor que cero.");
+        }
+        if (solicitud.getComentario() == null || solicitud.getComentario().isEmpty()) {
+            throw new IllegalArgumentException("El comentario de la solicitud no puede estar vacío.");
+        }
+        if (solicitud.getEstado() == null || !(solicitud.getEstado().equals("PENDIENTE") || solicitud.getEstado().equals("ACEPTADO") || solicitud.getEstado().equals("RECHAZADO"))) {
+            throw new IllegalArgumentException("El estado de la solicitud debe ser uno de los valores válidos: PENDIENTE, ACEPTADO, RECHAZADO.");
+        }
         return solicitudRepository.save(solicitud);
     }
 
-    // Editar una Solicitud existente
-    public Solicitud editarSolicitud(int id, Solicitud nuevosDatos) {
-        Optional<Solicitud> solicitudOptional = solicitudRepository.findById(id);
+    // Editar una solicitud
+    public Solicitud editarSolicitud(int solicitudId, Solicitud nuevosDatos) {
+        Optional<Solicitud> solicitudOptional = solicitudRepository.findById(solicitudId);
 
         if (solicitudOptional.isPresent()) {
             Solicitud solicitudExistente = solicitudOptional.get();
@@ -37,22 +49,18 @@ public class SolicitudService {
         }
     }
 
-    // Listar todas las Solicitudes
+    // Listar todas las solicitudes
     public List<Solicitud> listarSolicitudes() {
         return solicitudRepository.findAll();
     }
 
-    // Obtener una Solicitud por ID
-    public Optional<Solicitud> obtenerSolicitudPorId(int id) {
-        return solicitudRepository.findById(id);
+    // Eliminar una solicitud
+    public void eliminarSolicitud(int solicitudId) {
+        solicitudRepository.deleteById(solicitudId);
     }
 
-    // Eliminar una Solicitud
-    public void eliminarSolicitud(int id) {
-        if (solicitudRepository.existsById(id)) {
-            solicitudRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Solicitud no encontrada");
-        }
+    // Obtener una solicitud por ID
+    public Optional<Solicitud> obtenerSolicitudPorId(int solicitudId) {
+        return solicitudRepository.findById(solicitudId);
     }
 }
