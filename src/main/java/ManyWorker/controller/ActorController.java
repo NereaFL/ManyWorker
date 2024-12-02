@@ -1,9 +1,9 @@
 package ManyWorker.controller;
 
 import ManyWorker.entity.Actor;
+import ManyWorker.entity.ActorLogin;
+import ManyWorker.security.JWTUtils;
 import ManyWorker.service.ActorService;
-import mrRebujito.entity.ActorLogin;
-import mrRebujito.security.JWTUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/actores")
+@RequestMapping("/actor")
 public class ActorController {
 
 	@Autowired
