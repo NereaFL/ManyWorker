@@ -2,6 +2,7 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="/home/usuario/Escritorio/ManyWorker/ManyWorker"/>
 			<item value="C:\Users\vboxuser\Desktop\workspace\ManyWorker"/>
 			<item value="C:\Users\Usuario\OneDrive\Escritorio\ManyWorker"/>
 		</list>
