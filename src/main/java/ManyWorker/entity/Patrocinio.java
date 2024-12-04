@@ -3,6 +3,7 @@ package ManyWorker.entity;
 import org.hibernate.validator.constraints.URL;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Patrocinio extends DomainEntity {
@@ -12,6 +13,17 @@ public class Patrocinio extends DomainEntity {
 
 	@URL(message = "El enlace debe ser una URL válida")
 	private String enlacePaginaObjetivo;
+	
+	@OneToMany
+	private Patrocinador patrocinador;
+
+	public Patrocinador getPatrocinador() {
+		return patrocinador;
+	}
+
+	public void setPatrocinador(Patrocinador patrocinador) {
+		this.patrocinador = patrocinador;
+	}
 
 	// Constructor vacío
 	public Patrocinio() {
