@@ -71,15 +71,15 @@ public class AdministradorController {
 		}
 	}
 
-    @PutMapping("/{id}")
+    @PutMapping
     @Operation(summary = "Actualizar un administrador existente")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Administrador actualizado exitosamente"),
         @ApiResponse(responseCode = "404", description = "Administrador no encontrado"),
         @ApiResponse(responseCode = "400", description = "Solicitud inválida, el ID no puede ser nulo o administrador no válido")
     })
-    public ResponseEntity<String> updateAdmin(@PathVariable int id, @RequestBody Administrador updatedAdmin) {
-        Administrador response = adminService.updateAdmin(id, updatedAdmin);
+    public ResponseEntity<String> updateAdmin(@RequestBody Administrador updatedAdmin) {
+        Administrador response = adminService.updateAdmin(updatedAdmin);
         if (response != null) {
             return ResponseEntity.status(HttpStatus.OK).body("Administrador actualizado exitosamente");
         } else {
@@ -87,16 +87,14 @@ public class AdministradorController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar un administrador por ID")
+    @DeleteMapping
+    @Operation(summary = "Eliminar un administrador")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Administrador eliminado exitosamente"),
         @ApiResponse(responseCode = "404", description = "Administrador no encontrado")
     })
-    public ResponseEntity<String> deleteAdmin(@PathVariable int id) {
-        Optional<Administrador> a = adminService.getAdminById(id);
-        if (a.isPresent()) {
-            adminService.deleteAdmin(id);
+    public ResponseEntity<String> deleteAdmin() {
+        if (adminService.deleteAdmin()) {
             return ResponseEntity.status(HttpStatus.OK).body("Administrador eliminado exitosamente");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Administrador no encontrado");

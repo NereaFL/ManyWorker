@@ -1,6 +1,7 @@
 package ManyWorker.controller;
 
 import ManyWorker.entity.Mensaje;
+import ManyWorker.entity.PerfilSocial;
 import ManyWorker.service.MensajeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,13 +10,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/mensajes")
+@RequestMapping("/mensaje")
 public class MensajeController {
 
     @Autowired
     private MensajeService mensajeService;
 
-    @PostMapping("/enviar")
+    @PostMapping
     public Mensaje enviarMensaje(@RequestBody Mensaje mensaje) {
         return mensajeService.enviarMensaje(mensaje);
     }
@@ -29,8 +30,13 @@ public class MensajeController {
     public List<Mensaje> listarMensajesPorActor(@PathVariable int actorId) {
         return mensajeService.listarMensajesPorActor(actorId);
     }
+    
+    @PutMapping("/{id}")
+    public Mensaje editarMensaje(@PathVariable int id, @RequestBody Mensaje nuevosDatos) {
+        return mensajeService.editarMensaje(id, nuevosDatos);
+    }
 
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/{id}")
     public void eliminarMensaje(@PathVariable int id) {
         mensajeService.eliminarMensaje(id);
     }

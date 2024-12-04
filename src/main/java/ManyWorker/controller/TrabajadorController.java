@@ -69,15 +69,15 @@ public class TrabajadorController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     @Operation(summary = "Actualizar un trabajador existente")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Trabajador actualizado exitosamente"),
         @ApiResponse(responseCode = "404", description = "Trabajador no encontrado"),
         @ApiResponse(responseCode = "400", description = "Solicitud inválida, el ID no puede ser nulo o trabajador no válido")
     })
-    public ResponseEntity<String> updateTrabajador(@PathVariable int id, @RequestBody Trabajador updatedTrabajador) {
-        Trabajador response = trabajadorService.updateTrabajador(id, updatedTrabajador);
+    public ResponseEntity<String> updateTrabajador(@RequestBody Trabajador updatedTrabajador) {
+        Trabajador response = trabajadorService.updateTrabajador(updatedTrabajador);
         if (response != null) {
             return ResponseEntity.status(HttpStatus.OK).body("Trabajador actualizado exitosamente");
         } else {
@@ -85,16 +85,14 @@ public class TrabajadorController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping
     @Operation(summary = "Eliminar un trabajador por ID")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Trabajador eliminado exitosamente"),
         @ApiResponse(responseCode = "404", description = "Trabajador no encontrado")
     })
-    public ResponseEntity<String> deleteTrabajador(@PathVariable int id) {
-        Optional<Trabajador> t = trabajadorService.getTrabajadorById(id);
-        if (t.isPresent()) {
-            trabajadorService.deleteTrabajador(id);
+    public ResponseEntity<String> deleteTrabajador() {
+        if (trabajadorService.deleteTrabajador()) {
             return ResponseEntity.status(HttpStatus.OK).body("Trabajador eliminado exitosamente");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Trabajador no encontrado");

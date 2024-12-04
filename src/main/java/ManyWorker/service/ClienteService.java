@@ -8,8 +8,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ManyWorker.entity.Cliente;
+import ManyWorker.entity.Patrocinador;
 import ManyWorker.entity.Roles;
 import ManyWorker.repository.ClienteRepository;
+import ManyWorker.security.JWTUtils;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -21,6 +23,8 @@ public class ClienteService {
     @Autowired
 	private PasswordEncoder passwordEncoder;
     
+    private JWTUtils JWTUtils;
+    
     @Transactional
     public Cliente saveCliente(Cliente cliente) {
     	cliente.setRol(Roles.CLIENTE);
@@ -29,17 +33,17 @@ public class ClienteService {
     }
 
     @Transactional
-    public Cliente updateCliente(int id, Cliente cliente) {
-        Optional<Cliente> cliente0 = clienteRepository.findById(id);
-        if (cliente0.isPresent()) {
-        	cliente0.get().setNombre(cliente.getNombre());
-        	cliente0.get().setPrimerApellido(cliente.getPrimerApellido());
-        	cliente0.get().setSegundoApellido(cliente.getSegundoApellido());
-        	cliente0.get().setFoto(cliente.getFoto());
-        	cliente0.get().setEmail(cliente.getEmail());
-        	cliente0.get().setTelefono(cliente.getTelefono());
-        	cliente0.get().setDireccion(cliente.getDireccion());
-            return clienteRepository.save(cliente0.get());
+    public Cliente updateCliente(Cliente cliente) {
+    	Cliente cliente0 = JWTUtils.userLogin();
+		if (cliente != null) {
+        	cliente0.setNombre(cliente.getNombre());
+        	cliente0.setPrimerApellido(cliente.getPrimerApellido());
+        	cliente0.setSegundoApellido(cliente.getSegundoApellido());
+        	cliente0.setFoto(cliente.getFoto());
+        	cliente0.setEmail(cliente.getEmail());
+        	cliente0.setTelefono(cliente.getTelefono());
+        	cliente0.setDireccion(cliente.getDireccion());
+            return clienteRepository.save(cliente0);
         }
         return null;
     }
@@ -57,9 +61,10 @@ public class ClienteService {
 	}
 
     @Transactional
-    public boolean deleteCliente(int id) {
-        if (clienteRepository.existsById(id)) {
-        	clienteRepository.deleteById(id);
+    public boolean deleteCliente() {
+    	Cliente cliente = JWTUtils.userLogin();
+		if (cliente != null) {
+			clienteRepository.deleteById(cliente.getId());
             return true;
         }
         return false;

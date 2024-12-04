@@ -1,5 +1,7 @@
 package ManyWorker.entity;
 
+import java.util.List;
+
 import org.hibernate.validator.constraints.URL;
 
 import jakarta.persistence.Entity;
@@ -15,13 +17,14 @@ public class Patrocinio extends DomainEntity {
 	private String enlacePaginaObjetivo;
 	
 	@OneToMany
-	private Patrocinador patrocinador;
+	private List<Patrocinador> patrocinador;
 
-	public Patrocinador getPatrocinador() {
+
+	public List<Patrocinador> getPatrocinador() {
 		return patrocinador;
 	}
 
-	public void setPatrocinador(Patrocinador patrocinador) {
+	public void setPatrocinador(List<Patrocinador> patrocinador) {
 		this.patrocinador = patrocinador;
 	}
 

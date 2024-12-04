@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import ManyWorker.entity.Patrocinador;
 import ManyWorker.entity.Roles;
 import ManyWorker.repository.PatrocinadorRepository;
+import ManyWorker.security.JWTUtils;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -20,6 +21,8 @@ public class PatrocinadorService {
     @Autowired
 	private PasswordEncoder passwordEncoder;
     
+    private JWTUtils JWTUtils;
+    
     @Transactional
     public Patrocinador savePatrocinador(Patrocinador patrocinador) {
     	patrocinador.setRol(Roles.PATROCINADOR);
@@ -28,17 +31,17 @@ public class PatrocinadorService {
     }
 
     @Transactional
-    public Patrocinador updatePatrocinador(int id, Patrocinador patrocinador) {
-        Optional<Patrocinador> patrocinador0 = patrocinadorRepository.findById(id);
-        if (patrocinador0.isPresent()) {
-        	patrocinador0.get().setNombre(patrocinador.getNombre());
-        	patrocinador0.get().setPrimerApellido(patrocinador.getPrimerApellido());
-        	patrocinador0.get().setSegundoApellido(patrocinador.getSegundoApellido());
-        	patrocinador0.get().setFoto(patrocinador.getFoto());
-			patrocinador0.get().setEmail(patrocinador.getEmail());
-			patrocinador0.get().setTelefono(patrocinador.getTelefono());
-			patrocinador0.get().setDireccion(patrocinador.getDireccion());
-            return patrocinadorRepository.save(patrocinador0.get());
+    public Patrocinador updatePatrocinador(Patrocinador patrocinador) {
+    	Patrocinador patrocinador0 = JWTUtils.userLogin();
+		if (patrocinador != null) {
+        	patrocinador0.setNombre(patrocinador.getNombre());
+        	patrocinador0.setPrimerApellido(patrocinador.getPrimerApellido());
+        	patrocinador0.setSegundoApellido(patrocinador.getSegundoApellido());
+        	patrocinador0.setFoto(patrocinador.getFoto());
+			patrocinador0.setEmail(patrocinador.getEmail());
+			patrocinador0.setTelefono(patrocinador.getTelefono());
+			patrocinador0.setDireccion(patrocinador.getDireccion());
+            return patrocinadorRepository.save(patrocinador0);
         }
         return null;
     }
@@ -56,9 +59,10 @@ public class PatrocinadorService {
 	}
 
     @Transactional
-    public boolean deletePatrocinador(int id) {
-        if (patrocinadorRepository.existsById(id)) {
-            patrocinadorRepository.deleteById(id);
+    public boolean deletePatrocinador() {
+    	Patrocinador patrocinador = JWTUtils.userLogin();
+		if (patrocinador != null) {
+			patrocinadorRepository.deleteById(patrocinador.getId());
             return true;
         }
         return false;

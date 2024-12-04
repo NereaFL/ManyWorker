@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import ManyWorker.entity.Roles;
 import ManyWorker.entity.Trabajador;
 import ManyWorker.repository.TrabajadorRepository;
+import ManyWorker.security.JWTUtils;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -20,6 +21,8 @@ public class TrabajadorService {
     
     @Autowired
 	private PasswordEncoder passwordEncoder;
+    
+    private JWTUtils JWTUtils;
 
     @Transactional
     public Trabajador saveTrabajador(Trabajador trabajador) {
@@ -29,15 +32,15 @@ public class TrabajadorService {
     }
 
     @Transactional
-    public Trabajador updateTrabajador(int id, Trabajador trabajador) {
-        Optional<Trabajador> trabajadorO = trabajadorRepository.findById(id);
-        if (trabajadorO.isPresent()) {
-            trabajadorO.get().setNombre(trabajador.getNombre());
-            trabajadorO.get().setPrimerApellido(trabajador.getPrimerApellido());
-            trabajadorO.get().setNombreComercial(trabajador.getNombreComercial());
-            trabajadorO.get().setCurriculos(trabajador.getCurriculos());
-            trabajadorO.get().setTutoriales(trabajador.getTutoriales());
-            return trabajadorRepository.save(trabajadorO.get());
+    public Trabajador updateTrabajador(Trabajador trabajador) {
+    	Trabajador trabajadorO = JWTUtils.userLogin();
+		if (trabajador != null) {
+            trabajadorO.setNombre(trabajador.getNombre());
+            trabajadorO.setPrimerApellido(trabajador.getPrimerApellido());
+            trabajadorO.setNombreComercial(trabajador.getNombreComercial());
+            trabajadorO.setCurriculos(trabajador.getCurriculos());
+            trabajadorO.setTutoriales(trabajador.getTutoriales());
+            return trabajadorRepository.save(trabajadorO);
         }
         return null;
     }
@@ -56,9 +59,10 @@ public class TrabajadorService {
 
 
     @Transactional
-    public boolean deleteTrabajador(int id) {
-        if (trabajadorRepository.existsById(id)) {
-            trabajadorRepository.deleteById(id);
+    public boolean deleteTrabajador() {
+    	Trabajador trabajador = JWTUtils.userLogin();
+		if (trabajador != null) {
+			trabajadorRepository.deleteById(trabajador.getId());
             return true;
         }
         return false;

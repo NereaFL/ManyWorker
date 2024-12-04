@@ -26,8 +26,8 @@ public class ActorController {
 
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestBody ActorLogin actorLogin) {
-		Authentication authentication = authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(actorLogin.getUsername(), actorLogin.getPassword()));
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(actorLogin.getUsername(), actorLogin.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		String token = JWTUtils.generateToken(authentication);

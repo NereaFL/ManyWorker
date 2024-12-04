@@ -2,14 +2,18 @@ package ManyWorker.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ManyWorker.entity.Administrador;
+import ManyWorker.entity.Mensaje;
+import ManyWorker.entity.Patrocinador;
 import ManyWorker.entity.Roles;
 import ManyWorker.repository.AdministradorRepository;
+import ManyWorker.security.JWTUtils;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -20,6 +24,8 @@ public class AdministradorService {
     @Autowired
 	private PasswordEncoder passwordEncoder;
     
+    private JWTUtils JWTUtils;
+    
     @Transactional
     public Administrador saveAdmin(Administrador admin) {
     	admin.setRol(Roles.ADMINISTRADOR);
@@ -28,17 +34,17 @@ public class AdministradorService {
     }
 
     @Transactional
-    public Administrador updateAdmin(int id, Administrador admin) {
-        Optional<Administrador> adminO = adminRepository.findById(id);
-        if (adminO.isPresent()) {
-        	adminO.get().setNombre(admin.getNombre());
-        	adminO.get().setPrimerApellido(admin.getPrimerApellido());
-        	adminO.get().setSegundoApellido(admin.getSegundoApellido());
-        	adminO.get().setFoto(admin.getFoto());
-			adminO.get().setEmail(admin.getEmail());
-			adminO.get().setTelefono(admin.getTelefono());
-			adminO.get().setDireccion(admin.getDireccion());
-            return adminRepository.save(adminO.get());
+    public Administrador updateAdmin(Administrador admin) {
+    	Administrador adminO = JWTUtils.userLogin();
+		if (admin != null) {
+        	adminO.setNombre(admin.getNombre());
+        	adminO.setPrimerApellido(admin.getPrimerApellido());
+        	adminO.setSegundoApellido(admin.getSegundoApellido());
+        	adminO.setFoto(admin.getFoto());
+			adminO.setEmail(admin.getEmail());
+			adminO.setTelefono(admin.getTelefono());
+			adminO.setDireccion(admin.getDireccion());
+            return adminRepository.save(adminO);
         }
         return null;
     }
@@ -56,12 +62,31 @@ public class AdministradorService {
 	}
 
     @Transactional
-    public boolean deleteAdmin(int id) {
-        if (adminRepository.existsById(id)) {
-            adminRepository.deleteById(id);
+    public boolean deleteAdmin() {
+    	Administrador administrador = JWTUtils.userLogin();
+		if (administrador != null) {
+			adminRepository.deleteById(administrador.getId());
             return true;
         }
         return false;
     }
 
+    public void adminPorDefecto() {
+		if (this.getAllAdmins().size() <= 0) {
+			Administrador defaultAdmin = new Administrador();
+			defaultAdmin.setUsername("admin");
+			defaultAdmin.setPassword(passwordEncoder.encode("1234"));
+			defaultAdmin.setNombre("admin");
+			defaultAdmin.setPrimerApellido("Admin");
+			defaultAdmin.setSegundoApellido("Admin");
+			defaultAdmin.setEmail("admin@default.com");
+			defaultAdmin.setTelefono("623456789");
+			defaultAdmin.setDireccion("Dirección por defecto");
+			defaultAdmin.setFoto("http://default.png");
+			defaultAdmin.setRol(Roles.ADMINISTRADOR);
+
+			System.out.println("Usuario Admin creado por defecto");
+			adminRepository.save(defaultAdmin);
+		}
+	}
 }

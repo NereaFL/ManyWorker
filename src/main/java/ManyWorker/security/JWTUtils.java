@@ -3,10 +3,12 @@ package ManyWorker.security;
 import java.util.Date;
 import java.util.Optional;
 
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import ManyWorker.entity.Actor;
@@ -23,22 +25,29 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 
+@Component
 public class JWTUtils {
 	private static final String JWT_FIRMA = "JaviSBC";
 	private static final long EXTENCION_TOKEN = 86400000;
+	
 	@Autowired
+	@Lazy
 	private ActorService actorService;
 
 	@Autowired
+	@Lazy
 	private TrabajadorService trabajadorService;
 
 	@Autowired
+	@Lazy
 	private AdministradorService administradorService;
 
 	@Autowired
+	@Lazy
 	private ClienteService clienteService;
 
 	@Autowired
+	@Lazy
 	private PatrocinadorService patrocinadorService;
 
 	public static String getToken(HttpServletRequest request) {

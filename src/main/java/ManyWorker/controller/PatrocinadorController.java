@@ -73,15 +73,15 @@ public class PatrocinadorController {
 		}
 	}
 
-    @PutMapping("/{id}")
+    @PutMapping
     @Operation(summary = "Actualizar un Patrocinador existente")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Patrocinador actualizado exitosamente"),
         @ApiResponse(responseCode = "404", description = "Patrocinador no encontrado"),
         @ApiResponse(responseCode = "400", description = "Solicitud inválida, el ID no puede ser nulo o Patrocinador no válido")
     })
-    public ResponseEntity<String> updatePatrocinador(@PathVariable int id, @RequestBody Patrocinador updatedPatrocinador) {
-        Patrocinador response = patrocinadorService.updatePatrocinador(id, updatedPatrocinador);
+    public ResponseEntity<String> updatePatrocinador(@RequestBody Patrocinador updatedPatrocinador) {
+        Patrocinador response = patrocinadorService.updatePatrocinador(updatedPatrocinador);
         if (response != null) {
             return ResponseEntity.status(HttpStatus.OK).body("Patrocinador actualizado exitosamente");
         } else {
@@ -89,16 +89,14 @@ public class PatrocinadorController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar un Patrocinador por ID")
+    @DeleteMapping
+    @Operation(summary = "Eliminar un Patrocinador")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Patrocinador eliminado exitosamente"),
         @ApiResponse(responseCode = "404", description = "Patrocinador no encontrado")
     })
-    public ResponseEntity<String> deletePatrocinador(@PathVariable int id) {
-        Optional<Patrocinador> a = patrocinadorService.getPatrocinadorById(id);
-        if (a.isPresent()) {
-            patrocinadorService.deletePatrocinador(id);
+    public ResponseEntity<String> deletePatrocinador() {
+        if (patrocinadorService.deletePatrocinador()) {
             return ResponseEntity.status(HttpStatus.OK).body("Patrocinador eliminado exitosamente");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Patrocinador no encontrado");

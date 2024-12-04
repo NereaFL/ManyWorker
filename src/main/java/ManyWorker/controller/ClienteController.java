@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,6 +54,7 @@ public class ClienteController {
         }
     }
 
+    @PostMapping
 	@ApiResponses(value = {
 		    @ApiResponse(responseCode = "201", description = "Cliente creado exitosamente"),
 		    @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
@@ -71,15 +73,15 @@ public class ClienteController {
 		}
 	}
 
-    @PutMapping("/{id}")
+    @PutMapping
     @Operation(summary = "Actualizar un cliente existente")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Cliente actualizado exitosamente"),
         @ApiResponse(responseCode = "404", description = "Cliente no encontrado"),
         @ApiResponse(responseCode = "400", description = "Solicitud inválida, el ID no puede ser nulo o cliente no válido")
     })
-    public ResponseEntity<String> updateCliente(@PathVariable int id, @RequestBody Cliente updatedCliente) {
-        Cliente response = clienteService.updateCliente(id, updatedCliente);
+    public ResponseEntity<String> updateCliente(@RequestBody Cliente updatedCliente) {
+        Cliente response = clienteService.updateCliente(updatedCliente);
         if (response != null) {
             return ResponseEntity.status(HttpStatus.OK).body("Cliente actualizado exitosamente");
         } else {
@@ -87,16 +89,14 @@ public class ClienteController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping
     @Operation(summary = "Eliminar un cliente por ID")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Cliente eliminado exitosamente"),
         @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
     })
-    public ResponseEntity<String> deleteCliente(@PathVariable int id) {
-        Optional<Cliente> a = clienteService.getClienteById(id);
-        if (a.isPresent()) {
-        	clienteService.deleteCliente(id);
+    public ResponseEntity<String> deleteCliente() {
+        if (clienteService.deleteCliente()) {
             return ResponseEntity.status(HttpStatus.OK).body("Cliente eliminado exitosamente");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente no encontrado");
