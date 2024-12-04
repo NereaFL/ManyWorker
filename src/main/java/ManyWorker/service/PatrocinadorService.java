@@ -5,12 +5,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import ManyWorker.entity.Patrocinador;
 import ManyWorker.entity.Roles;
 import ManyWorker.repository.PatrocinadorRepository;
 import jakarta.transaction.Transactional;
 
+@Service
 public class PatrocinadorService {
 	@Autowired
     private PatrocinadorRepository patrocinadorRepository;

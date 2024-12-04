@@ -5,12 +5,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import ManyWorker.entity.Administrador;
 import ManyWorker.entity.Roles;
 import ManyWorker.repository.AdministradorRepository;
 import jakarta.transaction.Transactional;
 
+@Service
 public class AdministradorService {
 	@Autowired
     private AdministradorRepository adminRepository;

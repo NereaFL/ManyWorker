@@ -5,13 +5,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
-import ManyWorker.entity.Administrador;
 import ManyWorker.entity.Roles;
 import ManyWorker.entity.Trabajador;
 import ManyWorker.repository.TrabajadorRepository;
 import jakarta.transaction.Transactional;
 
+@Service
 public class TrabajadorService {
 
     @Autowired
