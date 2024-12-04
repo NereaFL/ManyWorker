@@ -58,7 +58,7 @@ public class AdministradorController {
 		    @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
 		    @ApiResponse(responseCode = "409", description = "El username ya está en uso")
 	})
-	public ResponseEntity<String> saveSocio(@RequestBody Administrador admin) {
+	public ResponseEntity<String> saveAdmin(@RequestBody Administrador admin) {
 		if (adminService.findByUsername(admin.getUsername()).isPresent()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El username ya está en uso");
 		} else {

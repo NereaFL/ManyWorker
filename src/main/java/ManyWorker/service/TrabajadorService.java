@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import ManyWorker.entity.Administrador;
+import ManyWorker.entity.Roles;
 import ManyWorker.entity.Trabajador;
 import ManyWorker.repository.TrabajadorRepository;
 import jakarta.transaction.Transactional;
@@ -13,9 +16,14 @@ public class TrabajadorService {
 
     @Autowired
     private TrabajadorRepository trabajadorRepository;
+    
+    @Autowired
+	private PasswordEncoder passwordEncoder;
 
     @Transactional
     public Trabajador saveTrabajador(Trabajador trabajador) {
+    	trabajador.setRol(Roles.TRABAJADOR);
+    	trabajador.setPassword(passwordEncoder.encode(trabajador.getPassword()));
         return trabajadorRepository.save(trabajador);
     }
 
@@ -40,6 +48,11 @@ public class TrabajadorService {
     public Optional<Trabajador> getTrabajadorById(int id) {
         return trabajadorRepository.findById(id);
     }
+    
+    public Optional<Trabajador> findByUsername(String username) {
+		return trabajadorRepository.findByUsername(username);
+	} 
+
 
     @Transactional
     public boolean deleteTrabajador(int id) {

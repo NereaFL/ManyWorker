@@ -98,16 +98,16 @@ public class JWTUtils {
 					}
 					break;
 				case TRABAJADOR:
-					Optional<Trabajador> ayuntamientoOptional = trabajadorService.findByUsername(username);
-					if (ayuntamientoOptional.isPresent()) {
-						res = (T) ayuntamientoOptional.get();
+					Optional<Trabajador> trabajadorOptional = trabajadorService.findByUsername(username);
+					if (trabajadorOptional.isPresent()) {
+						res = (T) trabajadorOptional.get();
 					}
 					break;
 
 				case PATROCINADOR:
-					Optional<Patrocinador> socioOptional = patrocinadorService.findByUsername(username);
-					if (socioOptional.isPresent()) {
-						res = (T) socioOptional.get();
+					Optional<Patrocinador> patrocinadorOptional = patrocinadorService.findByUsername(username);
+					if (patrocinadorOptional.isPresent()) {
+						res = (T) patrocinadorOptional.get();
 					}
 					break;
 				}
