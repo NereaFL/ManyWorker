@@ -1,12 +1,14 @@
 package ManyWorker.entity;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import java.util.Date;
 
 @Entity
 public class Mensaje extends DomainEntity {
@@ -22,7 +24,7 @@ public class Mensaje extends DomainEntity {
     private Actor destinatario;
 
     @NotNull
-    private Date fechaHora;
+    private LocalDateTime fechaHora;
 
     @NotBlank
     private String asunto;
@@ -51,11 +53,11 @@ public class Mensaje extends DomainEntity {
         this.destinatario = destinatario;
     }
 
-    public Date getFechaHora() {
+    public LocalDateTime getFechaHora() {
         return fechaHora;
     }
 
-    public void setFechaHora(Date fechaHora) {
+    public void setFechaHora(LocalDateTime fechaHora) {
         this.fechaHora = fechaHora;
     }
 

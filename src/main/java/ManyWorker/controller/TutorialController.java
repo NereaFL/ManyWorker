@@ -1,55 +1,75 @@
 package ManyWorker.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import ManyWorker.entity.Tutorial;
 import ManyWorker.service.TutorialService;
 
 @RestController
-@RequestMapping("/tutorial")
+@RequestMapping("/api/tutoriales")
 public class TutorialController {
 
-	    @Autowired
-	    private TutorialService tutorialService;
+    @Autowired
+    private TutorialService tutorialService;
 
-	    //Crear un tutorial
-	    @PostMapping
-	    public Tutorial crearTutorial(@RequestBody Tutorial turorial) {
-	        return tutorialService.crearTutorial(turorial);
-	    }
+    // Listar todos los tutoriales
+    @GetMapping
+    public ResponseEntity<List<Tutorial>> listarTutoriales() {
+        List<Tutorial> tutoriales = tutorialService.listarTutoriales();
+        return ResponseEntity.ok(tutoriales);
+    }
 
-	    //Editar un tutorial
-	    @PutMapping("/{id}")
-	    public Tutorial editarTutorial(@PathVariable int id, @RequestBody Tutorial nuevosDatos) {
-	        return tutorialService.editarTutorial(id, nuevosDatos);
-	    }
+    // Obtener un tutorial por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Tutorial> obtenerTutorialPorId(@PathVariable int id) {
+        try {
+            Tutorial tutorial = tutorialService.obtenerTutorialPorId(id);
+            return ResponseEntity.ok(tutorial);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-	    //Listar un tutorial
-	    @GetMapping
-	    public List<Tutorial> listarTutorial() {
-	        return tutorialService.listarTutoriales();
-	    }
+    // Crear un nuevo tutorial (solo trabajadores)
+    @PostMapping
+    public ResponseEntity<Tutorial> crearTutorial(@RequestBody Tutorial tutorial) {
+        try {
+            Tutorial nuevoTutorial = tutorialService.crearTutorial(tutorial);
+            return ResponseEntity.ok(nuevoTutorial);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(403).body(null); // Prohibido
+        }
+    }
 
-	    //Eliminar un tutorial
-	    @DeleteMapping("/{id}")
-	    public void eliminarTutorial(@PathVariable int id) {
-	    	tutorialService.eliminarTutorial(id);
-	    }
+    // Editar un tutorial existente (solo trabajadores)
+    @PutMapping("/{id}")
+    public ResponseEntity<Tutorial> editarTutorial(
+            @PathVariable int id, 
+            @RequestBody Tutorial nuevosDatos) {
+        try {
+            Tutorial tutorialActualizado = tutorialService.editarTutorial(id, nuevosDatos);
+            return ResponseEntity.ok(tutorialActualizado);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(403).body(null); // Prohibido
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-	    //Obtener un Tutorial
-	    @GetMapping("/{id}")
-	    public Optional<Tutorial> obtenerTutorial(@PathVariable int id) {
-	        return tutorialService.obtenerTutorialPorId(id);
-	    }
+    // Eliminar un tutorial (solo trabajadores)
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarTutorial(@PathVariable int id) {
+        try {
+            tutorialService.eliminarTutorial(id);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(403).build(); // Prohibido
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

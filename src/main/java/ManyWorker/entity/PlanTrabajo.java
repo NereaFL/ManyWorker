@@ -5,6 +5,7 @@ import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 
@@ -17,9 +18,32 @@ public class PlanTrabajo extends DomainEntity {
     // Relación uno a muchos (PlanTrabajo tiene 0 o más Fases)
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Fase> fases;
+    
+    @ManyToOne
+    private Trabajador trabajador;
+    
+    @ManyToOne
+    private TareaReparacion tarea;
+    
 
  
-    // Constructor vacío
+    public TareaReparacion getTarea() {
+		return tarea;
+	}
+
+	public void setTarea(TareaReparacion tarea) {
+		this.tarea = tarea;
+	}
+
+	public Trabajador getTrabajador() {
+		return trabajador;
+	}
+
+	public void setTrabajador(Trabajador trabajador) {
+		this.trabajador = trabajador;
+	}
+
+	// Constructor vacío
     public PlanTrabajo() {
     }
 

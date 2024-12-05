@@ -1,7 +1,11 @@
 package ManyWorker.entity;
 
+import java.util.List;
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -28,8 +32,19 @@ public class Solicitud extends DomainEntity {
     // Relación unidireccional con PlanTrabajo
     @ManyToOne(optional = false)
     private PlanTrabajo planTrabajo;
+    
+    @ManyToOne
+    private TareaReparacion tarea;
 
-    // Constructor vacío
+    public TareaReparacion getTarea() {
+		return tarea;
+	}
+
+	public void setTarea(TareaReparacion tarea) {
+		this.tarea = tarea;
+	}
+
+	// Constructor vacío
     public Solicitud() {
     }
 

@@ -98,8 +98,8 @@ public class SolicitudController {
         @ApiResponse(responseCode = "202", description = "Solicitud creada exitosamente"),
         @ApiResponse(responseCode = "400", description = "Error al crear la solicitud")
     })
-    public ResponseEntity<String> save(@RequestBody Solicitud s, @PathVariable int idAyunt) {
-        Solicitud solicitudSave = solicitudService.save(s, idAyunt);
+    public ResponseEntity<String> save(@RequestBody Solicitud s, @PathVariable int idCliente, double precio, String comentario) {
+        Solicitud solicitudSave = solicitudService.save(s, idCliente, precio, comentario);
         if (solicitudSave == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al crear la solicitud");
         } else {

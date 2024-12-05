@@ -1,10 +1,12 @@
 package ManyWorker.entity;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import org.hibernate.validator.constraints.URL;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
@@ -14,7 +16,7 @@ public class Tutorial extends DomainEntity {
     private String titulo;
 	
 	@NotBlank
-    private Date fechaHoraActualizacion;
+    private LocalDateTime fechaHoraActualizacion;
 	
 	@NotBlank
     private String resumen;
@@ -24,6 +26,17 @@ public class Tutorial extends DomainEntity {
     
     @NotBlank
     private String textoTutorial;
+    
+    @ManyToOne
+    private Trabajador trabajador;
+
+	public Trabajador getTrabajador() {
+		return trabajador;
+	}
+
+	public void setTrabajador(Trabajador trabajador) {
+		this.trabajador = trabajador;
+	}
 
 	public Tutorial() {
 		super();
@@ -37,12 +50,12 @@ public class Tutorial extends DomainEntity {
 		this.titulo = titulo;
 	}
 
-	public Date getFechaHoraActualizacion() {
+	public LocalDateTime getFechaHoraActualizacion() {
 		return fechaHoraActualizacion;
 	}
 
-	public void setFechaHoraActualizacion(Date fechaHoraActualizacion) {
-		this.fechaHoraActualizacion = fechaHoraActualizacion;
+	public void setFechaHoraActualizacion(LocalDateTime localDateTime) {
+		this.fechaHoraActualizacion = localDateTime;
 	}
 
 	public String getResumen() {
