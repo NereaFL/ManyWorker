@@ -29,74 +29,74 @@ public class SecurityConfiguration {
 		return new BCryptPasswordEncoder();
 	}
 
-	 @Bean
-	    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-			http.csrf().disable()
-				.authorizeHttpRequests()
-					// LOGIN
-					.requestMatchers("/login").permitAll()
-					
-					// Registro de Cliente y Trabajador
-		            .requestMatchers(HttpMethod.POST, "/cliente").permitAll()  // Registro de cliente
-		            .requestMatchers(HttpMethod.POST, "/trabajador").permitAll()  // Registro de trabajador
-		            
-		            // MENSAJES
-		            .requestMatchers(HttpMethod.GET, "/mensaje/{id}").permitAll()
-		            .requestMatchers(HttpMethod.GET, "/mensaje/actor/{id}").permitAll()
-		            .requestMatchers(HttpMethod.POST, "/mensaje/{id}").authenticated()  // Mensajes solo para autenticados
-		            .requestMatchers(HttpMethod.PUT, "/mensaje/{id}").authenticated()  
-		            .requestMatchers(HttpMethod.DELETE, "/mensaje/{id}").authenticated()
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	    http.csrf().disable()
+	        .authorizeHttpRequests()
+	            // LOGIN
+	            .requestMatchers("/login").permitAll()
+	            
+	            // Registro de Cliente y Trabajador
+	            .requestMatchers(HttpMethod.POST, "/cliente").permitAll()  // Cliente registration
+	            .requestMatchers(HttpMethod.POST, "/trabajador").permitAll()  // Trabajador registration
+	            
+	            // MENSAJES (Messages)
+	            .requestMatchers(HttpMethod.GET, "/mensaje/{id}").permitAll()
+	            .requestMatchers(HttpMethod.GET, "/mensaje/actor/{id}").permitAll()
+	            .requestMatchers(HttpMethod.POST, "/mensaje/{id}").authenticated()  // Messages only for authenticated users
+	            .requestMatchers(HttpMethod.PUT, "/mensaje/{id}").authenticated()  
+	            .requestMatchers(HttpMethod.DELETE, "/mensaje/{id}").authenticated()
 
-		            // TAREA REPARACIÓN
-		            .requestMatchers(HttpMethod.GET, "/tareaReparacion").permitAll()
-		            .requestMatchers(HttpMethod.GET, "/tareaReparacion/{id}").permitAll()
-		            .requestMatchers(HttpMethod.POST, "/tareaReparacion/{id}").hasAuthority("CASETA")
-		            .requestMatchers(HttpMethod.PUT, "/tareaReparacion/{id}").hasAuthority("CASETA")
-		            .requestMatchers(HttpMethod.DELETE, "/tareaReparacion/{id}").hasAuthority("CASETA")
+	            // TAREA REPARACIÓN (Repair Tasks)
+	            .requestMatchers(HttpMethod.GET, "/tareaReparacion").permitAll()
+	            .requestMatchers(HttpMethod.GET, "/tareaReparacion/{id}").permitAll()
+	            .requestMatchers(HttpMethod.POST, "/tareaReparacion/{id}").hasAuthority("CASETA")
+	            .requestMatchers(HttpMethod.PUT, "/tareaReparacion/{id}").hasAuthority("CASETA")
+	            .requestMatchers(HttpMethod.DELETE, "/tareaReparacion/{id}").hasAuthority("CASETA")
 
-		            // SOLICITUD
-		            .requestMatchers(HttpMethod.GET, "/solicitud/accept/{id}").hasAuthority("AYUNTAMIENTO")
-		            .requestMatchers(HttpMethod.GET, "/solicitud/refuse/{id}").hasAuthority("AYUNTAMIENTO")
-		            .requestMatchers(HttpMethod.GET, "/solicitud/{id}").hasAnyAuthority("CASETA", "AYUNTAMIENTO")
-		            .requestMatchers(HttpMethod.GET, "/solicitud/deCaseta").hasAuthority("AYUNTAMIENTO")
-		            .requestMatchers(HttpMethod.GET, "/solicitud/deAyuntamiento").hasAuthority("AYUNTAMIENTO")
-		            .requestMatchers(HttpMethod.POST, "/solicitud/{id}").hasAuthority("CASETA")
-		            .requestMatchers(HttpMethod.DELETE, "/solicitud").hasAuthority("CASETA")
+	            // SOLICITUD (Requests)
+	            .requestMatchers(HttpMethod.GET, "/solicitud/accept/{id}").hasAuthority("AYUNTAMIENTO")
+	            .requestMatchers(HttpMethod.GET, "/solicitud/refuse/{id}").hasAuthority("AYUNTAMIENTO")
+	            .requestMatchers(HttpMethod.GET, "/solicitud/{id}").hasAnyAuthority("CASETA", "AYUNTAMIENTO")
+	            .requestMatchers(HttpMethod.GET, "/solicitud/deCaseta").hasAuthority("AYUNTAMIENTO")
+	            .requestMatchers(HttpMethod.GET, "/solicitud/deAyuntamiento").hasAuthority("AYUNTAMIENTO")
+	            .requestMatchers(HttpMethod.POST, "/solicitud/{id}").hasAuthority("CASETA")
+	            .requestMatchers(HttpMethod.DELETE, "/solicitud").hasAuthority("CASETA")
 
-		            // CLIENTE
-		            .requestMatchers(HttpMethod.GET, "/cliente").permitAll()
-		            .requestMatchers(HttpMethod.GET, "/cliente/{id}").permitAll()
-		            .requestMatchers(HttpMethod.POST, "/cliente").permitAll()
-		            .requestMatchers(HttpMethod.PUT, "/cliente").hasAuthority("CLIENTE") // Solo cliente puede editar sus datos
-		            .requestMatchers(HttpMethod.DELETE, "/cliente").hasAuthority("CLIENTE")
-		            
-		            // TRABAJADOR
-		            .requestMatchers(HttpMethod.GET, "/trabajador").permitAll()
-		            .requestMatchers(HttpMethod.GET, "/trabajador/{id}").permitAll()
-		            .requestMatchers(HttpMethod.POST, "/trabajador").permitAll()
-		            .requestMatchers(HttpMethod.PUT, "/trabajador").hasAuthority("TRABAJADOR")  // Solo trabajador puede editar sus datos
-		            .requestMatchers(HttpMethod.DELETE, "/trabajador").hasAuthority("TRABAJADOR")
+	            // CLIENTE (Client)
+	            .requestMatchers(HttpMethod.GET, "/cliente").permitAll()
+	            .requestMatchers(HttpMethod.GET, "/cliente/{id}").permitAll()
+	            .requestMatchers(HttpMethod.POST, "/cliente").permitAll()
+	            .requestMatchers(HttpMethod.PUT, "/cliente").hasAuthority("CLIENTE")  // Only client can edit their data
+	            .requestMatchers(HttpMethod.DELETE, "/cliente").hasAuthority("CLIENTE")
+	            
+	            // TRABAJADOR (Worker)
+	            .requestMatchers(HttpMethod.GET, "/trabajador").permitAll()
+	            .requestMatchers(HttpMethod.GET, "/trabajador/{id}").permitAll()
+	            .requestMatchers(HttpMethod.POST, "/trabajador").permitAll()
+	            .requestMatchers(HttpMethod.PUT, "/trabajador").hasAuthority("TRABAJADOR")  // Only worker can edit their data
+	            .requestMatchers(HttpMethod.DELETE, "/trabajador").hasAuthority("TRABAJADOR")
 
-		            // ADMINISTRADOR
-		            .requestMatchers("/admin").hasAuthority("ADMIN")
-		            
-		            // PATROCINADOR
-		            .requestMatchers(HttpMethod.GET, "/patrocinador").permitAll()
-		            .requestMatchers(HttpMethod.GET, "/patrocinador/{id}").permitAll()
-		            .requestMatchers(HttpMethod.POST, "/patrocinador").hasAnyAuthority("PATROCINADOR")
-		            .requestMatchers(HttpMethod.PUT, "/patrocinador").hasAnyAuthority("PATROCINADOR")
-		            .requestMatchers(HttpMethod.DELETE, "/patrocinador").hasAuthority("PATROCINADOR")
-		            
-		            // SWAGGER
-		            .requestMatchers("/swagger-ui/**").permitAll()
-		            .requestMatchers("/v3/api-docs/**").permitAll()
+	            // ADMINISTRADOR (Administrator)
+	            .requestMatchers("/admin").hasAuthority("ADMIN")
+	            
+	            // PATROCINADOR (Sponsor)
+	            .requestMatchers(HttpMethod.GET, "/patrocinador").permitAll()
+	            .requestMatchers(HttpMethod.GET, "/patrocinador/{id}").permitAll()
+	            .requestMatchers(HttpMethod.POST, "/patrocinador").hasAnyAuthority("PATROCINADOR")
+	            .requestMatchers(HttpMethod.PUT, "/patrocinador").hasAnyAuthority("PATROCINADOR")
+	            .requestMatchers(HttpMethod.DELETE, "/patrocinador").hasAuthority("PATROCINADOR")
+	            
+	            // SWAGGER (API documentation)
+	            .requestMatchers("/swagger-ui/**").permitAll()
+	            .requestMatchers("/v3/api-docs/**").permitAll()
+	            
+	            // OTRAS RUTAS (Other Routes)
+	            .anyRequest().authenticated();  // All other requests require authentication
 
-		            // OTRAS RUTAS
-		            .anyRequest().authenticated();  
 
-		    // Filtro JWT
-		    http.addFilterBefore(JWTAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-		    return http.build();
+			http.addFilterBefore(JWTAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+			return http.build();
 		}
 
 }

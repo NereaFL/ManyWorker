@@ -17,9 +17,9 @@ public class CategoriaDataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Verificar si las categorías ya están presentes
+       
         List<String> categoriasExistentes = categoriaRepository.findAll().stream()
-            .map(Categoria::getNombreCategoria) // Asumimos que tienes un método getNombreCategoria en la entidad
+            .map(Categoria::getNombreCategoria) 
             .toList();
 
         // Lista de categorías predeterminadas
