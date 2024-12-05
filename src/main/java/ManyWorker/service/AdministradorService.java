@@ -71,6 +71,7 @@ public class AdministradorService {
         return false;
     }
 
+    /*
     public void adminPorDefecto() {
 		if (this.getAllAdmins().size() <= 0) {
 			Administrador defaultAdmin = new Administrador();
@@ -89,4 +90,5 @@ public class AdministradorService {
 			adminRepository.save(defaultAdmin);
 		}
 	}
+	*/
 }

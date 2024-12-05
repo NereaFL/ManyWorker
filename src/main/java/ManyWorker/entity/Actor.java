@@ -1,6 +1,7 @@
 package ManyWorker.entity;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.validator.constraints.URL;
 
@@ -43,7 +44,18 @@ public abstract class Actor extends DomainEntity {
 
     private String password;
     
-    private Roles rol;
+    @OneToMany
+    private Set<Mensaje> mensajes;
+    
+    public Set<Mensaje> getMensajes() {
+		return mensajes;
+	}
+
+	public void setMensajes(Set<Mensaje> mensajes) {
+		this.mensajes = mensajes;
+	}
+
+	private Roles rol;
 
     public String getUsername() {
 		return username;

@@ -2,6 +2,7 @@ package ManyWorker.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -18,6 +19,9 @@ public class Trabajador extends Actor {
 
     @OneToMany
     private List<Tutorial> tutoriales = new ArrayList<>();
+    
+    @OneToMany
+	private Set<Solicitud> solicitudes;
 
     public Trabajador(String nombre, String primerApellido) {
         super(nombre, primerApellido);
@@ -55,4 +59,14 @@ public class Trabajador extends Actor {
     public void setTutoriales(List<Tutorial> tutoriales) {
         this.tutoriales = tutoriales;
     }
+
+	public Set<Solicitud> getSolicitudes() {
+		return solicitudes;
+	}
+
+	public void setSolicitudes(Set<Solicitud> solicitudes) {
+		this.solicitudes = solicitudes;
+	}
+
+    
 }
