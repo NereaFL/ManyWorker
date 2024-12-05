@@ -36,62 +36,67 @@ public class SecurityConfiguration {
 					// LOGIN
 					.requestMatchers("/login").permitAll()
 					
-					// MENSAJES
-					.requestMatchers(HttpMethod.GET, "/mensaje/{id}").permitAll()
-					.requestMatchers(HttpMethod.GET, "/mensaje/actor/{id}").permitAll()
-					.requestMatchers(HttpMethod.POST, "/mensaje/{id}").permitAll()
-					.requestMatchers(HttpMethod.PUT, "/mensaje/{id}").permitAll()
-					.requestMatchers(HttpMethod.DELETE, "/mensaje/{id}").permitAll()
-					
-					// TAREA REPARACIÓN
-					.requestMatchers(HttpMethod.GET, "/tareaReparacion").permitAll()
-					.requestMatchers(HttpMethod.GET, "/tareaReparacion/{id}").permitAll()
-					.requestMatchers(HttpMethod.POST, "/tareaReparacion/{id}").hasAuthority("CASETA")
-					.requestMatchers(HttpMethod.PUT, "/tareaReparacion/{id}").hasAuthority("CASETA")
-					.requestMatchers(HttpMethod.DELETE, "/tareaReparacion/{id}").hasAuthority("CASETA")
+					// Registro de Cliente y Trabajador
+		            .requestMatchers(HttpMethod.POST, "/cliente").permitAll()  // Registro de cliente
+		            .requestMatchers(HttpMethod.POST, "/trabajador").permitAll()  // Registro de trabajador
+		            
+		            // MENSAJES
+		            .requestMatchers(HttpMethod.GET, "/mensaje/{id}").permitAll()
+		            .requestMatchers(HttpMethod.GET, "/mensaje/actor/{id}").permitAll()
+		            .requestMatchers(HttpMethod.POST, "/mensaje/{id}").authenticated()  // Mensajes solo para autenticados
+		            .requestMatchers(HttpMethod.PUT, "/mensaje/{id}").authenticated()  
+		            .requestMatchers(HttpMethod.DELETE, "/mensaje/{id}").authenticated()
 
-					// SOLICITUD
-					.requestMatchers(HttpMethod.GET, "/solicitud/accept/{id}").hasAuthority("AYUNTAMIENTO")
-					.requestMatchers(HttpMethod.GET, "/solicitud/refuse/{id}").hasAuthority("AYUNTAMIENTO")
-					.requestMatchers(HttpMethod.GET, "/solicitud/{id}").hasAnyAuthority("CASETA", "AYUNTAMIENTO")
-					.requestMatchers(HttpMethod.GET, "/solicitud/deCaseta").hasAuthority("AYUNTAMIENTO")
-					.requestMatchers(HttpMethod.GET, "/solicitud/deAyuntamiento").hasAuthority("AYUNTAMIENTO")
-					.requestMatchers(HttpMethod.POST, "/solicitud/{id}").hasAuthority("CASETA")
-					.requestMatchers(HttpMethod.DELETE, "/solicitud").hasAuthority("CASETA")
-					
-					// CLIENTE
-					.requestMatchers(HttpMethod.GET, "/cliente").permitAll()
-					.requestMatchers(HttpMethod.GET, "/cliente/{id}").permitAll()
-					.requestMatchers(HttpMethod.POST, "/cliente").permitAll()
-					.requestMatchers(HttpMethod.PUT, "/cliente").hasAuthority("CLIENTE") //
-					.requestMatchers(HttpMethod.DELETE, "/cliente").hasAuthority("CLIENTE")
-					
-					// TRABAJADOR
-					.requestMatchers(HttpMethod.GET, "/trabajador").permitAll()
-					.requestMatchers(HttpMethod.GET, "/trabajador/{id}").permitAll()
-					.requestMatchers(HttpMethod.POST, "/trabajador").permitAll()
-					.requestMatchers(HttpMethod.PUT, "/trabajador").hasAuthority("TRABAJADOR") //
-					.requestMatchers(HttpMethod.DELETE, "/trabajador").hasAuthority("TRABAJADOR")
-					
-					// ADMINISTRADOR
-					.requestMatchers("/admin").hasAuthority("ADMIN")
-					
-					// PATROCINADOR
-					.requestMatchers(HttpMethod.GET, "/patrocinador").permitAll()
-					.requestMatchers(HttpMethod.GET, "/patrocinador/{id}").permitAll()
-					.requestMatchers(HttpMethod.POST, "/patrocinador").hasAnyAuthority("PATROCINADOR")
-					.requestMatchers(HttpMethod.PUT, "/patrocinador").hasAnyAuthority("PATROCINADOR") //
-					.requestMatchers(HttpMethod.DELETE, "/patrocinador").hasAuthority("PATROCINADOR")
-					
-					// SWAGGER
-					.requestMatchers("/swagger-ui/**").permitAll()
-	                .requestMatchers("/v3/api-docs/**").permitAll()
-	                
-					// OTRAS RUTAS
-					.anyRequest().authenticated();
+		            // TAREA REPARACIÓN
+		            .requestMatchers(HttpMethod.GET, "/tareaReparacion").permitAll()
+		            .requestMatchers(HttpMethod.GET, "/tareaReparacion/{id}").permitAll()
+		            .requestMatchers(HttpMethod.POST, "/tareaReparacion/{id}").hasAuthority("CASETA")
+		            .requestMatchers(HttpMethod.PUT, "/tareaReparacion/{id}").hasAuthority("CASETA")
+		            .requestMatchers(HttpMethod.DELETE, "/tareaReparacion/{id}").hasAuthority("CASETA")
 
-			http.addFilterBefore(JWTAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-			return http.build();
+		            // SOLICITUD
+		            .requestMatchers(HttpMethod.GET, "/solicitud/accept/{id}").hasAuthority("AYUNTAMIENTO")
+		            .requestMatchers(HttpMethod.GET, "/solicitud/refuse/{id}").hasAuthority("AYUNTAMIENTO")
+		            .requestMatchers(HttpMethod.GET, "/solicitud/{id}").hasAnyAuthority("CASETA", "AYUNTAMIENTO")
+		            .requestMatchers(HttpMethod.GET, "/solicitud/deCaseta").hasAuthority("AYUNTAMIENTO")
+		            .requestMatchers(HttpMethod.GET, "/solicitud/deAyuntamiento").hasAuthority("AYUNTAMIENTO")
+		            .requestMatchers(HttpMethod.POST, "/solicitud/{id}").hasAuthority("CASETA")
+		            .requestMatchers(HttpMethod.DELETE, "/solicitud").hasAuthority("CASETA")
+
+		            // CLIENTE
+		            .requestMatchers(HttpMethod.GET, "/cliente").permitAll()
+		            .requestMatchers(HttpMethod.GET, "/cliente/{id}").permitAll()
+		            .requestMatchers(HttpMethod.POST, "/cliente").permitAll()
+		            .requestMatchers(HttpMethod.PUT, "/cliente").hasAuthority("CLIENTE") // Solo cliente puede editar sus datos
+		            .requestMatchers(HttpMethod.DELETE, "/cliente").hasAuthority("CLIENTE")
+		            
+		            // TRABAJADOR
+		            .requestMatchers(HttpMethod.GET, "/trabajador").permitAll()
+		            .requestMatchers(HttpMethod.GET, "/trabajador/{id}").permitAll()
+		            .requestMatchers(HttpMethod.POST, "/trabajador").permitAll()
+		            .requestMatchers(HttpMethod.PUT, "/trabajador").hasAuthority("TRABAJADOR")  // Solo trabajador puede editar sus datos
+		            .requestMatchers(HttpMethod.DELETE, "/trabajador").hasAuthority("TRABAJADOR")
+
+		            // ADMINISTRADOR
+		            .requestMatchers("/admin").hasAuthority("ADMIN")
+		            
+		            // PATROCINADOR
+		            .requestMatchers(HttpMethod.GET, "/patrocinador").permitAll()
+		            .requestMatchers(HttpMethod.GET, "/patrocinador/{id}").permitAll()
+		            .requestMatchers(HttpMethod.POST, "/patrocinador").hasAnyAuthority("PATROCINADOR")
+		            .requestMatchers(HttpMethod.PUT, "/patrocinador").hasAnyAuthority("PATROCINADOR")
+		            .requestMatchers(HttpMethod.DELETE, "/patrocinador").hasAuthority("PATROCINADOR")
+		            
+		            // SWAGGER
+		            .requestMatchers("/swagger-ui/**").permitAll()
+		            .requestMatchers("/v3/api-docs/**").permitAll()
+
+		            // OTRAS RUTAS
+		            .anyRequest().authenticated();  
+
+		    // Filtro JWT
+		    http.addFilterBefore(JWTAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+		    return http.build();
 		}
 
 }
