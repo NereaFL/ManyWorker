@@ -74,4 +74,5 @@ public class TareaReparacionService {
             throw new RuntimeException("Tarea Reparacion no encontrado");
         }
     }
+
 }

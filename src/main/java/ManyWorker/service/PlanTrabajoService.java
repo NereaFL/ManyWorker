@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ManyWorker.entity.Fase;
 import ManyWorker.entity.PlanTrabajo;
 import ManyWorker.entity.Trabajador;
+import ManyWorker.repository.FaseRepository;
 import ManyWorker.repository.PlanTrabajoRepository;
 import ManyWorker.security.JWTUtils;
 
@@ -19,6 +21,9 @@ public class PlanTrabajoService {
 
     @Autowired
     private JWTUtils jwtUtils;
+    
+    @Autowired
+    private FaseRepository faseRepository;
 
     // Crear un nuevo Plan Trabajo
     public PlanTrabajo crearPlanTrabajo(PlanTrabajo planTrabajo) {
@@ -82,6 +87,33 @@ public class PlanTrabajoService {
             throw new RuntimeException("Plan de trabajo no encontrado.");
         }
     }
+    
+ // Eliminar una Fase de un Plan de Trabajo
+    public void eliminarFaseDePlanTrabajo(int faseId) {
+        Trabajador trabajador = jwtUtils.userLogin();
+        if (trabajador == null) {
+            throw new IllegalStateException("Solo los trabajadores pueden gestionar fases.");
+        }
+
+        Optional<Fase> faseOptional = faseRepository.findById(faseId);
+        if (faseOptional.isPresent()) {
+            Fase fase = faseOptional.get();
+            PlanTrabajo planTrabajo = fase.getPlanTrabajo(); // Suponiendo que Fase tiene una relación con PlanTrabajo
+
+            if (planTrabajo == null) {
+                throw new IllegalStateException("La fase no está asociada a ningún plan de trabajo.");
+            }
+
+            if (!planTrabajo.getTrabajador().equals(trabajador)) {
+                throw new IllegalArgumentException("No puedes eliminar una fase de un plan de trabajo que no te pertenece.");
+            }
+
+            faseRepository.delete(fase);
+        } else {
+            throw new RuntimeException("Fase no encontrada.");
+        }
+    }
+
 
     // Obtener un Plan Trabajo por ID
     public Optional<PlanTrabajo> obtenerPlanTrabajoPorId(int planTrabajoId) {

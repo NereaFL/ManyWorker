@@ -16,92 +16,97 @@ import ManyWorker.security.JWTUtils;
 @Service
 public class TutorialService {
 
-    @Autowired
-    private TutorialRepository tutorialRepository;
+	@Autowired
+	private TutorialRepository tutorialRepository;
 
-    @Autowired
-    private JWTUtils jwtUtils;
+	@Autowired
+	private JWTUtils jwtUtils;
 
-    // Validar que el usuario autenticado sea un Trabajador
-    private Trabajador validarUsuarioEsTrabajador() {
-        Object userLogin = jwtUtils.userLogin();
-        if (userLogin instanceof Trabajador) {
-            return (Trabajador) userLogin;
-        } else {
-            throw new IllegalStateException("Solo los trabajadores pueden gestionar tutoriales.");
-        }
-    }
+	// Validar que el usuario autenticado sea un Trabajador
+	private Trabajador validarUsuarioEsTrabajador() {
+		Object userLogin = jwtUtils.userLogin();
+		if (userLogin instanceof Trabajador) {
+			return (Trabajador) userLogin;
+		} else {
+			throw new IllegalStateException("Solo los trabajadores pueden gestionar tutoriales.");
+		}
+	}
 
-    // Listar todos los tutoriales
-    public List<Tutorial> listarTutoriales() {
-        return tutorialRepository.findAll();
-    }
+	// Listar todos los tutoriales
+	public List<Tutorial> listarTutoriales() {
+		return tutorialRepository.findAll();
+	}
 
-    // Obtener un tutorial por ID
-    public Tutorial obtenerTutorialPorId(int tutorialId) {
-        Optional<Tutorial> tutorialOptional = tutorialRepository.findById(tutorialId);
+	// Listar todos los tutoriales de un Trabajador por su ID
+	public List<Tutorial> listarTutorialesPorIdTrabajador(int trabajadorId) {
+		return tutorialRepository.findByTrabajadorId(trabajadorId);
+	}
 
-        if (tutorialOptional.isPresent()) {
-            return tutorialOptional.get();
-        } else {
-            throw new RuntimeException("Tutorial no encontrado");
-        }
-    }
+	// Obtener un tutorial por ID
+	public Tutorial obtenerTutorialPorId(int tutorialId) {
+		Optional<Tutorial> tutorialOptional = tutorialRepository.findById(tutorialId);
 
-    // Crear un nuevo tutorial (solo Trabajadores)
-    @Transactional
-    public Tutorial crearTutorial(Tutorial tutorial) {
-        Trabajador trabajador = validarUsuarioEsTrabajador();
+		if (tutorialOptional.isPresent()) {
+			return tutorialOptional.get();
+		} else {
+			throw new RuntimeException("Tutorial no encontrado");
+		}
+	}
 
-        tutorial.setFechaHoraActualizacion(LocalDateTime.now());
-        tutorial.setFechaHoraActualizacion(LocalDateTime.now());
-        tutorial.setTrabajador(trabajador);
-        return tutorialRepository.save(tutorial);
-    }
+	// Crear un nuevo tutorial (solo Trabajadores)
+	@Transactional
+	public Tutorial crearTutorial(Tutorial tutorial) {
+		Trabajador trabajador = validarUsuarioEsTrabajador();
 
-    // Editar un tutorial existente (solo Trabajadores)
-    @Transactional
-    public Tutorial editarTutorial(int tutorialId, Tutorial nuevosDatos) {
-        Trabajador trabajador = validarUsuarioEsTrabajador();
+		tutorial.setFechaHoraActualizacion(LocalDateTime.now());
+		tutorial.setFechaHoraActualizacion(LocalDateTime.now());
+		tutorial.setTrabajador(trabajador);
+		return tutorialRepository.save(tutorial);
+	}
 
-        Optional<Tutorial> tutorialOptional = tutorialRepository.findById(tutorialId);
+	// Editar un tutorial existente (solo Trabajadores)
+	@Transactional
+	public Tutorial editarTutorial(int tutorialId, Tutorial nuevosDatos) {
+		Trabajador trabajador = validarUsuarioEsTrabajador();
 
-        if (tutorialOptional.isPresent()) {
-            Tutorial tutorialExistente = tutorialOptional.get();
+		Optional<Tutorial> tutorialOptional = tutorialRepository.findById(tutorialId);
 
-            if (!tutorialExistente.getTrabajador().equals(trabajador)) {
-                throw new IllegalArgumentException("No tiene permiso para editar este tutorial.");
-            }
+		if (tutorialOptional.isPresent()) {
+			Tutorial tutorialExistente = tutorialOptional.get();
 
-            tutorialExistente.setTitulo(nuevosDatos.getTitulo());
-            tutorialExistente.setResumen(nuevosDatos.getResumen());
-            tutorialExistente.setImagen(nuevosDatos.getImagen());
-            tutorialExistente.setTextoTutorial(nuevosDatos.getTextoTutorial());
-            tutorialExistente.setFechaHoraActualizacion(LocalDateTime.now());
+			if (!tutorialExistente.getTrabajador().equals(trabajador)) {
+				throw new IllegalArgumentException("No tiene permiso para editar este tutorial.");
+			}
 
-            return tutorialRepository.save(tutorialExistente);
-        } else {
-            throw new RuntimeException("Tutorial no encontrado");
-        }
-    }
+			tutorialExistente.setTitulo(nuevosDatos.getTitulo());
+			tutorialExistente.setResumen(nuevosDatos.getResumen());
+			tutorialExistente.setImagen(nuevosDatos.getImagen());
+			tutorialExistente.setTextoTutorial(nuevosDatos.getTextoTutorial());
+			tutorialExistente.setFechaHoraActualizacion(LocalDateTime.now());
 
-    // Eliminar un tutorial (solo Trabajadores)
-    @Transactional
-    public void eliminarTutorial(int tutorialId) {
-        Trabajador trabajador = validarUsuarioEsTrabajador();
+			return tutorialRepository.save(tutorialExistente);
+		} else {
+			throw new RuntimeException("Tutorial no encontrado");
+		}
+	}
 
-        Optional<Tutorial> tutorialOptional = tutorialRepository.findById(tutorialId);
+	// Eliminar un tutorial (solo Trabajadores)
+	@Transactional
+	public void eliminarTutorial(int tutorialId) {
+		Trabajador trabajador = validarUsuarioEsTrabajador();
 
-        if (tutorialOptional.isPresent()) {
-            Tutorial tutorial = tutorialOptional.get();
+		Optional<Tutorial> tutorialOptional = tutorialRepository.findById(tutorialId);
 
-            if (!tutorial.getTrabajador().equals(trabajador)) {
-                throw new IllegalArgumentException("No tiene permiso para eliminar este tutorial.");
-            }
+		if (tutorialOptional.isPresent()) {
+			Tutorial tutorial = tutorialOptional.get();
 
-            tutorialRepository.deleteById(tutorialId);
-        } else {
-            throw new RuntimeException("Tutorial no encontrado para eliminar");
-        }
-    }
+			if (!tutorial.getTrabajador().equals(trabajador)) {
+				throw new IllegalArgumentException("No tiene permiso para eliminar este tutorial.");
+			}
+
+			tutorialRepository.deleteById(tutorialId);
+		} else {
+			throw new RuntimeException("Tutorial no encontrado para eliminar");
+		}
+	}
 }

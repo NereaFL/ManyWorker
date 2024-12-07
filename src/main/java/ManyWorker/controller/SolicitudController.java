@@ -92,8 +92,8 @@ public class SolicitudController {
         }
     }
 
-    @PostMapping("/{idCliente}")
-    @Operation(summary = "Crear una nueva solicitud para un ayuntamiento")
+    @PostMapping("/{id}")
+    @Operation(summary = "Crear una nueva solicitud para un cliente")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "202", description = "Solicitud creada exitosamente"),
         @ApiResponse(responseCode = "400", description = "Error al crear la solicitud")
