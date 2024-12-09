@@ -39,5 +39,7 @@ public class CategoriaController {
     public Optional<Categoria> obtenerCategoriaPorId(@PathVariable int id) {
         return categoriaService.obtenerCategoriaPorId(id);
     }
+    
+    
 }
 

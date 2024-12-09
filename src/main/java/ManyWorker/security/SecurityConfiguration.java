@@ -120,7 +120,7 @@ public class SecurityConfiguration {
 				.requestMatchers(HttpMethod.GET, "/patrocinador").permitAll()
 				.requestMatchers(HttpMethod.GET, "/patrocinador/{id}").permitAll()
 				.requestMatchers(HttpMethod.POST, "/patrocinador").permitAll()
-				.requestMatchers(HttpMethod.PUT, "/patrocinador").hasAnyAuthority("PATROCINADOR")
+				.requestMatchers(HttpMethod.PUT, "/patrocinador").hasAuthority("PATROCINADOR")
 				.requestMatchers(HttpMethod.DELETE, "/patrocinador").hasAuthority("PATROCINADOR")
 
 				// SWAGGER

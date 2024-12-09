@@ -57,4 +57,6 @@ public class CategoriaService {
     public Optional<Categoria> obtenerCategoriaPorId(int categoriaId) {
         return categoriaRepository.findById(categoriaId);
     }
+    
+    
 }
