@@ -61,7 +61,6 @@ public class TareaReparacionService {
 
         if (tareaRepositorio.isPresent()) {
             TareaReparacion tareaExistente = tareaRepositorio.get();
-            tareaExistente.setCatalogoGarantia(nuevosDatos.getCatalogoGarantia());
             tareaExistente.setClienteId(nuevosDatos.getClienteId());
             tareaExistente.setCategoria(nuevosDatos.getCategoria());
             tareaExistente.setDescripcion(nuevosDatos.getDescripcion());

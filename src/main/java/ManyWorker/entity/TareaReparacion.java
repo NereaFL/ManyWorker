@@ -30,9 +30,6 @@ public class TareaReparacion extends DomainEntity {
     private Long clienteId;
     
     @OneToOne
-    private CatalogoGarantia catalogoGarantia;
-    
-    @OneToOne
     private Categoria categoria;
     
 
@@ -43,8 +40,7 @@ public class TareaReparacion extends DomainEntity {
 
     // Constructor con argumentos
 	public TareaReparacion(@NotNull Date fechaHora, @NotBlank String descripcion, @NotBlank String direccion,
-			@NotNull double precioMaximo, @NotNull Date fechaFinalizacion, @NotNull Long clienteId,
-			CatalogoGarantia catalogoGarantia, Categoria categoria) {
+			@NotNull double precioMaximo, @NotNull Date fechaFinalizacion, @NotNull Long clienteId, Categoria categoria) {
 		super();
 		this.fechaHora = fechaHora;
 		this.descripcion = descripcion;
@@ -52,7 +48,6 @@ public class TareaReparacion extends DomainEntity {
 		this.precioMaximo = precioMaximo;
 		this.fechaFinalizacion = fechaFinalizacion;
 		this.clienteId = clienteId;
-		this.catalogoGarantia = catalogoGarantia;
 		this.categoria = categoria;
 	}
 
@@ -60,14 +55,6 @@ public class TareaReparacion extends DomainEntity {
     public Date getFechaHora() {
         return fechaHora;
     }
-
-    public CatalogoGarantia getCatalogoGarantia() {
-		return catalogoGarantia;
-	}
-
-	public void setCatalogoGarantia(CatalogoGarantia catalogoGarantia) {
-		this.catalogoGarantia = catalogoGarantia;
-	}
 
 	public Categoria getCategoria() {
 		return categoria;
